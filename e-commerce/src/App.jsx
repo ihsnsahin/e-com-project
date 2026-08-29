@@ -1,14 +1,17 @@
-import './App.css'
+import { Switch, Route } from "react-router-dom";
+import PageContent from "./layout/PageContent";
+import HomePage from "./pages/HomePage";
 
 function App() {
-
   return (
-    <>
-      <h1 class="bg-amber-900 text-5xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
-  )
+    <PageContent>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+      </Switch>
+    </PageContent>
+  );
 }
 
-export default App
+export default App;
