@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 function HeaderTop() {
     return (
-        <div className="hidden lg:flex justify-between items-center bg-[#252B42] text-[#FFFFFF] text-sm px-9 py-4">
+        <div className="hidden lg:flex justify-between items-center bg-[#252B42] text-[#FFFFFF] text-sm px-9 py-3">
             <div className="flex gap-5">
                 <div className="flex items-center gap-1.5">
                     <Phone className="w-4 h-4" />

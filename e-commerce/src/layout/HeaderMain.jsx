@@ -22,7 +22,7 @@ function HeaderMain() {
                 </nav>
 
                 {/* PARÇA 3: Sağ Elemanlar (Masaüstünde Görünür, Mobilde Gizlenir) */}
-                <div className="hidden nav:flex items-center gap-6 text-[#23A6F0] font-bold">
+                <div className="hidden nav:flex items-center gap-6 text-[#23A6F0]">
                     <div className="flex gap-1.5 cursor-pointer">
                         <User className="w-4 h-4" />
                         <Link to="/login">Login</Link>

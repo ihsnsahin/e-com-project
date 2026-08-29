@@ -5,4 +5,5 @@
 @theme {
     --font-montserrat: "Montserrat", sans-serif;
     --breakpoint-nav: 900px;
+    --breakpoint-hero: 1036px;
 }
