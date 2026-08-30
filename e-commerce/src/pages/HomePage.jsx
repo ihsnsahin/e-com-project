@@ -2,6 +2,7 @@ import Banner from "../components/Banner";
 import EditorsPick from "../components/EditorsPick";
 import Hero from "../components/Hero";
 import Products from "../components/Products";
+import PromoSection from "../components/PromoSection";
 
 function HomePage() {
     return (
@@ -16,6 +17,7 @@ function HomePage() {
                 </div>
             </div>
             <Banner />
+            <PromoSection />
         </>
     );
 }
