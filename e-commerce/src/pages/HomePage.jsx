@@ -1,3 +1,4 @@
+import Banner from "../components/Banner";
 import EditorsPick from "../components/EditorsPick";
 import Hero from "../components/Hero";
 import Products from "../components/Products";
@@ -14,7 +15,7 @@ function HomePage() {
                     <Products />
                 </div>
             </div>
-
+            <Banner />
         </>
     );
 }
