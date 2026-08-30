@@ -1,4 +1,5 @@
 import Banner from "../components/Banner";
+import BlogSection from "../components/BlogSection";
 import EditorsPick from "../components/EditorsPick";
 import Hero from "../components/Hero";
 import Products from "../components/Products";
@@ -18,6 +19,7 @@ function HomePage() {
             </div>
             <Banner />
             <PromoSection />
+            <BlogSection />
         </>
     );
 }
