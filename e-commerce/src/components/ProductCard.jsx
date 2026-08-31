@@ -7,8 +7,8 @@ function ProductCard({ productId }) {
     }
     return (
         <div className="flex flex-col items-center justify-center w-full sm:w-[calc(50%-15px)] lg:w-[calc(25%-22.5px)]">
-            <div className="w-full h-[427px]">
-                <img src="/product.jpg" alt="product" className="w-full h-full object-contain lg:object-cover" />
+            <div className="w-full h-[427px] group">
+                <img src="/product.jpg" alt="product" className="w-full h-full object-contain lg:object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" />
             </div>
 
             <div className="flex flex-col gap-[10px] items-center justify-center py-6">

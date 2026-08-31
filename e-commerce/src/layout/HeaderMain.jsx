@@ -28,26 +28,49 @@ function HeaderMain() {
                 <nav className={`${isMenuOpen ? "flex" : "hidden"} nav:flex flex-col nav:flex-row justify-center items-center gap-7`}>
                     <Link
                         to="/"
-                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        className="inline-block text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
                         onClick={closeAll}
                     >Home</Link>
-                    <button onClick={() => setShopOpen((prev) => !prev)} className="flex items-center gap-1 cursor-pointer">
-                        <span className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]">Shop</span>
-                        {isShopOpen ? <ChevronUp className="w-4 h-4 text-[#737373] " /> : <ChevronDown className="w-4 h-4 text-[#737373] " />}
-                    </button>
+                    <div className="flex flex-col justify-center items-center gap-5 nav:relative">
+                        <button onClick={() => setShopOpen((prev) => !prev)} className="flex items-center gap-1 cursor-pointer">
+                            <span className="inline-block text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]">Shop</span>
+                            {isShopOpen ? <ChevronUp className="w-4 h-4 text-[#737373] " /> : <ChevronDown className="w-4 h-4 text-[#737373] " />}
+                        </button>
+                        {isShopOpen &&
+                            <nav className="flex flex-col items-center justify-center gap-4 
+                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:left-0 nav:w-30 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start">
+                                <Link
+                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                                    onClick={closeAll}
+                                >Men</Link>
+                                <Link
+                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                                    onClick={closeAll}
+                                >Women</Link>
+                                <Link
+                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                                    onClick={closeAll}
+                                >Kids</Link>
+                                <Link
+                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                                    onClick={closeAll}
+                                >Accessories</Link>
+                            </nav>}
+                    </div>
+
                     <Link
                         to="/about"
-                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        className="inline-block text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
                         onClick={closeAll}
                     >About</Link>
                     <Link
                         to="/blog"
-                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        className="inline-block text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
                         onClick={closeAll}
                     >Blog</Link>
                     <Link
                         to="/contact"
-                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal  nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        className="inline-block text-2xl nav:text-sm text-[#737373] font-normal  nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
                         onClick={closeAll}
                     >Contact</Link>
                 </nav>
@@ -57,8 +80,8 @@ function HeaderMain() {
                         onClick={closeAll}
                         className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
                     >
-                        <User className="w-8 h-8 nav:w-4 nav:h-4" />
-                        <span className="text-3xl nav:text-sm font-normal nav:font-bold">Login</span>
+                        <User className="w-7 h-7 nav:w-4 nav:h-4" />
+                        <span className="text-2xl nav:text-sm font-normal nav:font-bold">Login</span>
                     </Link>
 
                     <Link
@@ -66,19 +89,19 @@ function HeaderMain() {
                         onClick={closeAll}
                         className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
                     >
-                        <UserPlus className="w-8 h-8 nav:w-4 nav:h-4" />
-                        <span className="text-3xl nav:text-sm font-normal nav:font-bold">Register</span>
+                        <UserPlus className="w-7 h-7 nav:w-4 nav:h-4" />
+                        <span className="text-2xl nav:text-sm font-normal nav:font-bold">Register</span>
                     </Link>
 
-                    <Search className="w-8 h-8 nav:w-4 nav:h-4 cursor-pointer transition-transform duration-200 hover:scale-110" />
+                    <Search className="w-7 h-7 nav:w-4 nav:h-4 cursor-pointer transition-transform duration-200 hover:scale-110" />
 
                     <div className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-110">
-                        <ShoppingCart className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <ShoppingCart className="w-7 h-7 nav:w-4 nav:h-4" />
                         <span className="text-xs font-normal">1</span>
                     </div>
 
                     <div className="flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110">
-                        <Heart className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <Heart className="w-7 h-7 nav:w-4 nav:h-4" />
                         <span className="text-xs font-normal">1</span>
                     </div>
                 </div>

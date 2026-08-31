@@ -2,8 +2,8 @@ import { AlarmClock, ChartArea, ChevronRight } from "lucide-react";
 
 function BlogCard() {
     return (
-        <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[calc(50%-15px)] md:w-[calc(33.333%-20px)] shadow-md">
-            <div className="relative flex justify-center items-center w-full aspect-11/10">
+        <div className="flex flex-col items-start justify-center gap-2 w-full sm:w-[calc(50%-15px)] md:w-[calc(33.333%-20px)] shadow-md  transition-transform duration-500 ease-in-out hover:scale-110 hover:cursor-pointer">
+            <div className="relative flex justify-center items-center w-full aspect-11/10 ">
                 <span className="absolute top-5 left-5 bg-[#E74040] text-white text-sm rounded-sm px-2.5 leading-6">NEW</span>
                 <img src="/blog.jpg" alt="blog" className="w-full h-full object-cover object-center block" />
             </div>
