@@ -9,14 +9,14 @@ function Products() {
                 <p className="text-sm text-[#737373] text-center w-3xs sm:w-full font-normal">Problems trying to resolve the conflict between</p>
             </div>
             <div className="flex flex-wrap justify-center gap-[30px] md:justify-between sm:flex-row sm:flex-wrap ">
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                <ProductCard productId={1} />
+                <ProductCard productId={2} />
+                <ProductCard productId={3} />
+                <ProductCard productId={4} />
+                <ProductCard productId={5} />
+                <ProductCard productId={6} />
+                <ProductCard productId={7} />
+                <ProductCard productId={8} />
 
             </div>
 

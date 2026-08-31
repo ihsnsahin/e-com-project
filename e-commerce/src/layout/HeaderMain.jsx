@@ -1,58 +1,88 @@
-import { AlignRight, ChevronDown, Heart, Search, ShoppingCart, User } from "lucide-react";
+import { ChevronDown, ChevronUp, Heart, Search, ShoppingCart, User, UserPlus, X } from "lucide-react";
+import { useState } from "react";
+import { BiMenuAltRight } from "react-icons/bi";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function HeaderMain() {
+    const [isMenuOpen, setMenuOpen] = useState(false);
+    const [isShopOpen, setShopOpen] = useState(false);
+
+    const handleClick = () => {
+        setMenuOpen((prev) => !prev);
+    }
+    const closeAll = () => {
+        setMenuOpen(false);
+        setShopOpen(false);
+    };
     return (
-        <div className="flex flex-col items-center w-full bg-[#FFFFFF] text-black text-sm px-9 py-6">
-            {/* ÜST BAR: Masaüstünde 3 Parça (Logo - Nav - Sağ Elemanlar), Mobilde 2 Parça (Logo - Mobil İkonlar) */}
-            <div className="flex justify-between items-center w-full">
-                {/* PARÇA 1: Logo */}
-                <h2 className="text-[#252B42] text-2xl">Bandage</h2>
-
-                {/* PARÇA 2: Navigasyon (Masaüstünde Ortada Görünür, Mobilde Gizlenir) */}
-                <nav className="hidden nav:flex items-center gap-6 text-[#737373]">
-                    <Link to="/">Home</Link>
-                    <div className="flex items-center gap-1 cursor-pointer">
-                        <Link to="/shop">Shop</Link>
-                        <ChevronDown className="w-4 h-4" />
-                    </div>
-                    <Link to="/about">About</Link>
-                    <Link to="/blog">Blog</Link>
-                    <Link to="/contact">Contact</Link>
-                </nav>
-
-                {/* PARÇA 3: Sağ Elemanlar (Masaüstünde Görünür, Mobilde Gizlenir) */}
-                <div className="hidden nav:flex items-center gap-6 text-[#23A6F0]">
-                    <div className="flex gap-1.5 cursor-pointer">
-                        <User className="w-4 h-4" />
-                        <Link to="/login">Login</Link>
-                        <span>/</span>
-                        <Link to="/register">Register</Link>
-                    </div>
-                    <Search className="w-4 h-4 cursor-pointer" />
-                    <div className="flex items-center gap-1.5 cursor-pointer">
-                        <ShoppingCart className="w-4 h-4" />
-                        <span className="text-xs font-normal">1</span>
-                    </div>
-                    <div className="flex items-center gap-1 cursor-pointer">
-                        <Heart className="w-4 h-4" />
-                        <span className="text-xs font-normal">1</span>
+        <div className="w-full px-9 py-6">
+            <div className="flex flex-col nav:flex-row justify-center nav:justify-between items-center gap-17 nav:gap-0">
+                <div className="flex justify-between items-center w-full nav:w-auto">
+                    <h2 className="text-2xl text-[#252B42]">Bandage</h2>
+                    <div className="nav:hidden">
+                        {!isMenuOpen
+                            ? < BiMenuAltRight onClick={handleClick} className="w-6 h-6 cursor-pointer" />
+                            : <X onClick={handleClick} className="w-6 h-6 cursor-pointer" />}
                     </div>
                 </div>
-                {/* MOBİL İKONLAR (Sadece Mobilde Görünür) */}
-                <div className="flex items-center gap-6 nav:hidden text-[#252B42]">
-                    <Search className="w-6 h-6 cursor-pointer" />
-                    <ShoppingCart className="w-6 h-6 cursor-pointer" />
-                    <AlignRight className="w-7 h-7 cursor-pointer" />
+                <nav className={`${isMenuOpen ? "flex" : "hidden"} nav:flex flex-col nav:flex-row justify-center items-center gap-7`}>
+                    <Link
+                        to="/"
+                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        onClick={closeAll}
+                    >Home</Link>
+                    <button onClick={() => setShopOpen((prev) => !prev)} className="flex items-center gap-1 cursor-pointer">
+                        <span className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]">Shop</span>
+                        {isShopOpen ? <ChevronUp className="w-4 h-4 text-[#737373] " /> : <ChevronDown className="w-4 h-4 text-[#737373] " />}
+                    </button>
+                    <Link
+                        to="/about"
+                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        onClick={closeAll}
+                    >About</Link>
+                    <Link
+                        to="/blog"
+                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        onClick={closeAll}
+                    >Blog</Link>
+                    <Link
+                        to="/contact"
+                        className="inline-block text-3xl nav:text-sm text-[#737373] font-normal  nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        onClick={closeAll}
+                    >Contact</Link>
+                </nav>
+                <div className={`${isMenuOpen ? "flex" : "hidden"} nav:flex  flex-col nav:flex-row items-center justify-center gap-7 text-[#23A6F0]`}>
+                    <Link
+                        to="/login"
+                        onClick={closeAll}
+                        className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
+                    >
+                        <User className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <span className="text-3xl nav:text-sm font-normal nav:font-bold">Login</span>
+                    </Link>
+
+                    <Link
+                        to="/register"
+                        onClick={closeAll}
+                        className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
+                    >
+                        <UserPlus className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <span className="text-3xl nav:text-sm font-normal nav:font-bold">Register</span>
+                    </Link>
+
+                    <Search className="w-8 h-8 nav:w-4 nav:h-4 cursor-pointer transition-transform duration-200 hover:scale-110" />
+
+                    <div className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-110">
+                        <ShoppingCart className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <span className="text-xs font-normal">1</span>
+                    </div>
+
+                    <div className="flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110">
+                        <Heart className="w-8 h-8 nav:w-4 nav:h-4" />
+                        <span className="text-xs font-normal">1</span>
+                    </div>
                 </div>
             </div>
-            {/* PARÇA 4: Mobil Menü (Masaüstünde Gizlidir, Mobilde Hemen Altında Dikey Olarak Çıkar) */}
-            <nav className="flex flex-col items-center justify-center gap-[30px] py-[60px] text-[#737373] text-3xl font-normal nav:hidden">
-                <Link to="/">Home</Link>
-                <Link to="/shop">Product</Link>
-                <Link to="/about">Pricing</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
         </div>
     )
 }

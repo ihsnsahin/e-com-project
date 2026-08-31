@@ -42,7 +42,7 @@ function Hero() {
             >
                 {slides.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div className="bg-[url(/hero-blue.jpg)] bg-cover bg-center bg-no-repeat">
+                        <div className="bg-[url(/hero-blue.jpg)] bg-cover bg-center bg-no-repeat ">
                             <div className="hero:max-w-5xl hero:m-auto px-9 hero:px-0">
                                 <div className="flex  flex-col items-center md:items-start justify-center gap-9 min-h-screen text-white ">
                                     <h5 className="text-base">{slide.subtitle}</h5>
