@@ -22,7 +22,7 @@ function Banner() {
             >
                 <SwiperSlide>
                     <div className="bg-[#23856D] h-screen overflow-hidden">
-                        <div className="hero:max-w-5xl hero:m-auto px-9 hero:px-0 pt-20 hero:pt-40 flex flex-col hero:flex-row items-center justify-between gap-10 w-full">
+                        <div className="layout-flex items-center justify-between gap-10 pt-20 hero:flex-row hero:pt-40 hero:px-0">
                             <div className="flex  flex-col items-center hero:items-start justify-center max-w-sm gap-9 text-white ">
                                 <h4 className="text-xl font-normal">SUMMER 2020</h4>
                                 <h2 className="text-4xl md:text-6xl text-center hero:text-left leading-tight">Vita Classic
@@ -33,15 +33,19 @@ function Banner() {
                                     <button className="bg-[#2DC071] text-sm px-10 py-4 rounded-sm hover:bg-emerald-600 hover:cursor-pointer transition-colors">ADD TO CHART</button>
                                 </div>
                             </div>
-                            <div className="w-full hero:w-1/2 flex justify-center hero:justify-end items-end self-end">
-                                <img src="/banner.png" alt="banner" className="max-h-[450px] hero:max-h-[1000px] w-auto object-cover object-bottom block" />
+                            <div className="flex justify-center items-end self-end w-full overflow-hidden hero:w-1/2 hero:justify-end">
+                                <img
+                                    src="/banner.png"
+                                    alt="banner"
+                                    className="max-h-[450px] hero:max-h-[1000px] max-w-full h-auto w-auto object-cover object-bottom block"
+                                />
                             </div>
                         </div>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="bg-[#23856D] h-screen overflow-hidden">
-                        <div className="flex flex-col items-center justify-between gap-10 w-full px-9 pt-20 h-screen hero:max-w-5xl hero:m-auto  hero:px-0  hero:pt-40  hero:flex-row ">
+                        <div className="layout-flex items-center justify-between gap-10 pt-20 hero:flex-row hero:pt-40 hero:px-0">
                             <div className="flex  flex-col items-center hero:items-start justify-center max-w-sm gap-9 text-white ">
                                 <h4 className="text-xl font-normal">SUMMER 2020</h4>
                                 <h2 className="text-4xl md:text-6xl text-center hero:text-left leading-tight">Vita Classic

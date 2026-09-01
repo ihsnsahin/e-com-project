@@ -7,3 +7,9 @@
     --breakpoint-nav: 900px;
     --breakpoint-hero: 1036px;
 }
+
+@layer components {
+    .layout-flex {
+        @apply flex flex-col w-full px-9 md:max-w-5xl md:mx-auto lg:px-0;
+    }
+}

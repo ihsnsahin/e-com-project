@@ -1,6 +1,6 @@
 function EditorsPick() {
     return (
-        <div className="flex flex-col gap-[48px] md:max-w-5xl md:m-auto">
+        <div className="layout-flex gap-[48px] py-20">
             <div className="flex flex-col items-center justify-center gap-2.5">
                 <h3 className="text-2xl text-center">EDITOR’S PICK</h3>
                 <p className="text-sm text-[#737373] text-center w-3xs md:w-full font-normal">Problems trying to resolve

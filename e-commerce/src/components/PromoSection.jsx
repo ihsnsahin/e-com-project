@@ -1,7 +1,7 @@
 function PromoSection() {
     return (
         <section className="w-full bg-white  overflow-hidden">
-            <div className=" flex flex-col items-center gap-10 w-full justify-between md:max-w-6xl md:gap-20 md:m-auto px-9 md:px-0 pt-20 md:pt-0 md:flex-row-reverse  ">
+            <div className="layout-flex md:max-w-6xl items-center justify-between gap-10 pt-20 md:flex-row-reverse md:gap-20 md:pt-0">
                 <div className="flex flex-col justify-center items-center md:items-start gap-7 max-w-3xs sm:max-w-sm md:max-w-lg">
                     <h5 className="text-base text-center md:text-left  text-[#BDBDBD]">SUMMER 2020</h5>
                     <h2 className="text-4xl text-center md:text-left ">Part of the Neural Universe</h2>

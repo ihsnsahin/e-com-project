@@ -2,7 +2,7 @@ import BlogCard from "./BlogCard";
 
 function BlogSection() {
     return (
-        <div className="flex flex-col  bg-white px-9 py-20 lg:px-0  md:max-w-5xl md:m-auto">
+        <div className="layout-flex bg-white py-20">
             <div className="flex flex-col gap-[48px]">
                 <div className="flex flex-col items-center justify-center gap-2.5 ">
                     <h6 className="text-sm text-[#23A6F0] text-center">Practice Advice</h6>

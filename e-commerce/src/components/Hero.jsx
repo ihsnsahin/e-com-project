@@ -42,14 +42,23 @@ function Hero() {
             >
                 {slides.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div className="bg-[url(/hero-blue.jpg)] bg-cover bg-center bg-no-repeat ">
-                            <div className="hero:max-w-5xl hero:m-auto px-9 hero:px-0">
-                                <div className="flex  flex-col items-center md:items-start justify-center gap-9 min-h-screen text-white ">
-                                    <h5 className="text-base">{slide.subtitle}</h5>
-                                    <h1 className="text-4xl md:text-6xl text-center md:text-left">{slide.title}</h1>
-                                    <p className="text-xl text-center font-normal max-w-sm md:text-left">{slide.description}</p>
-                                    <Link to="/shop" className="bg-[#2DC071] text-2xl px-10 py-4 rounded-sm hover:bg-emerald-600 transition-colors">{slide.buttonText}</Link>
-                                </div>
+                        <div className="relative overflow-hidden">
+                            <img
+                                src="/hero-blue.jpg"
+                                alt="Hero Background"
+                                className="absolute inset-0 w-full h-full object-cover object-center -z-10"
+                            />
+                            <div className="absolute inset-0 -z-5 bg-black opacity-15"></div>
+                            <div className="layout-flex items-center justify-center gap-9 min-h-screen text-white md:items-start">
+                                <h5 className="text-base">{slide.subtitle}</h5>
+                                <h1 className="text-[4xl] text-center md:text-6xl md:text-left">{slide.title}</h1>
+                                <p className="max-w-sm text-center text-xl font-normal md:text-left">{slide.description}</p>
+                                <Link
+                                    to="/shop"
+                                    className="rounded-sm bg-[#2DC071] px-10 py-4 text-2xl transition-colors hover:bg-emerald-600"
+                                >
+                                    {slide.buttonText}
+                                </Link>
                             </div>
                         </div>
                     </SwiperSlide>
