@@ -1,44 +1,56 @@
 import { useState } from "react";
 
-function ProductCard({ productId }) {
+function ProductCard({ productId, viewMode }) {
     const [color, setColor] = useState("blue");
     function handleChange(event) {
         setColor(event.target.value);
     }
+    const COLOR_OPTIONS = [
+        { value: "blue", bgClass: "bg-[#23A6F0]", ringClass: "peer-checked:ring-[#23A6F0]" },
+        { value: "green", bgClass: "bg-[#23856D]", ringClass: "peer-checked:ring-[#23856D]" },
+        { value: "orange", bgClass: "bg-[#E77C40]", ringClass: "peer-checked:ring-[#E77C40]" },
+        { value: "black", bgClass: "bg-[#252B42]", ringClass: "peer-checked:ring-[#252B42]" },
+    ];
     return (
-        <div className="flex flex-col items-center justify-center w-full sm:w-[calc(50%-15px)] lg:w-[calc(25%-22.5px)]">
-            <div className="relative overflow-hidden sm:overflow-visible w-full h-[427px] group">
-                <img src="/product.jpg" alt="product" className="w-full h-full object-contain lg:object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" />
+        <div className={`flex flex-col items-center justify-center transition-all duration-300 ${viewMode === 'list'
+            ? 'w-full sm:flex-row shadow-xs rounded-xs hover:shadow-lg p-4 gap-6 justify-start items-center'
+            : 'w-full transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-lg sm:w-[calc(50%-15px)] lg:w-[calc(25%-22.5px)]'
+            }`}>
+            <div className={`relative overflow-hidden sm:overflow-visible group ${viewMode === 'list'
+                ? 'w-[200px] h-[250px] shrink-0'
+                : 'w-full h-[427px]'
+                }`}>
+                <img
+                    src="/product.jpg"
+                    alt="product"
+                    className="w-full h-full object-contain lg:object-cover"
+                />
                 <div className="absolute inset-0 bg-[#23A6F0] opacity-0 group-hover:opacity-15 group-hover:scale-105 transition-transform duration-500 ease-in-out"></div>
             </div>
-
-            <div className="flex flex-col gap-[10px] items-center justify-center py-6">
+            <div className={`flex flex-col gap-[10px] py-6 ${viewMode === 'list'
+                ? 'items-start justify-start flex-1 text-left'
+                : 'items-center justify-center'
+                }`}>
                 <h5 className="text-base">Graphic Design</h5>
                 <span className="text-sm text-[#737373]">English Department</span>
                 <div className="flex gap-2">
                     <h5 className="text-base text-[#BDBDBD]">$16.48</h5>
-                    <h5 className="text-base  text-[#23856D]">$6.48</h5>
+                    <h5 className="text-base text-[#23856D]">$6.48</h5>
                 </div>
                 <div className="flex gap-2">
-                    <label className="cursor-pointer">
-                        <input type="radio" name={`product-color-${productId}`} value="blue" onChange={handleChange} checked={color === "blue"} className="sr-only peer" />
-                        <span className="w-4 h-4 rounded-full bg-[#23A6F0] inline-block peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[#23A6F0]" />
-                    </label>
-
-                    <label className="cursor-pointer">
-                        <input type="radio" name={`product-color-${productId}`} value="green" onChange={handleChange} checked={color === "green"} className="sr-only peer" />
-                        <span className="w-4 h-4 rounded-full bg-[#23856D] inline-block peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[#23856D]" />
-                    </label>
-
-                    <label className="cursor-pointer">
-                        <input type="radio" name={`product-color-${productId}`} value="orange" onChange={handleChange} checked={color === "orange"} className="sr-only peer" />
-                        <span className="w-4 h-4 rounded-full bg-[#E77C40] inline-block peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[#E77C40]" />
-                    </label>
-
-                    <label className="cursor-pointer">
-                        <input type="radio" name={`product-color-${productId}`} value="black" onChange={handleChange} checked={color === "black"} className="sr-only peer" />
-                        <span className="w-4 h-4 rounded-full bg-[#252B42] inline-block peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[#252B42]" />
-                    </label>
+                    {COLOR_OPTIONS.map((item) => (
+                        <label key={item.value} className="cursor-pointer">
+                            <input
+                                type="radio"
+                                name={`product-color-${productId}`}
+                                value={item.value}
+                                onChange={handleChange}
+                                checked={color === item.value}
+                                className="sr-only peer"
+                            />
+                            <span className={`w-4 h-4 rounded-full inline-block peer-checked:ring-2 peer-checked:ring-offset-2 ${item.bgClass} ${item.ringClass}`} />
+                        </label>
+                    ))}
                 </div>
             </div>
         </div>

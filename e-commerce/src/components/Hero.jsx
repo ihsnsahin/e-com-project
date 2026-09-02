@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Pagination, Navigation, Zoom } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
+import { Link } from 'react-router-dom'
 const slides = [
     {
         id: 1,
@@ -32,12 +32,11 @@ function Hero() {
                     '--swiper-navigation-color': '#fff',
                     '--swiper-pagination-color': '#fff',
                 }}
-                zoom={true}
                 navigation={true}
                 pagination={{
                     clickable: true,
                 }}
-                modules={[Zoom, Navigation, Pagination]}
+                modules={[Navigation, Pagination]}
                 className="mySwiper"
             >
                 {slides.map((slide) => (
