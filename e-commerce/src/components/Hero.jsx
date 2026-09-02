@@ -50,7 +50,7 @@ function Hero() {
                             <div className="absolute inset-0 -z-5 bg-black opacity-15"></div>
                             <div className="layout-flex items-center justify-center gap-9 min-h-screen text-white md:items-start">
                                 <h5 className="text-base">{slide.subtitle}</h5>
-                                <h1 className="text-[4xl] text-center md:text-6xl md:text-left">{slide.title}</h1>
+                                <h1 className="text-5xl text-center md:text-6xl md:text-left">{slide.title}</h1>
                                 <p className="max-w-sm text-center text-xl font-normal md:text-left">{slide.description}</p>
                                 <Link
                                     to="/shop"
