@@ -2,7 +2,6 @@ import { ChevronRight, LayoutGrid, List } from "lucide-react";
 import Products from "../components/Products";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaAws, FaHooli, FaLyft, FaPiedPiperHat, FaRedditAlien, FaStripe } from "react-icons/fa";
 import Brands from "../components/Brands";
 const shopCategories = [
     { id: 1, title: "CLOTHS", count: "5 Items", img: "/shop1.jpg" },
