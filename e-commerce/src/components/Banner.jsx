@@ -37,7 +37,7 @@ function Banner() {
                                 <img
                                     src="/banner.png"
                                     alt="banner"
-                                    className="max-h-[450px] hero:max-h-[1000px] max-w-full h-auto w-auto object-cover object-bottom block"
+                                    className="max-h-112.5 hero:max-h-250 max-w-full h-auto w-auto object-cover object-bottom block"
                                 />
                             </div>
                         </div>
@@ -57,7 +57,7 @@ function Banner() {
                                 </div>
                             </div>
                             <div className="flex justify-center items-end self-end w-full hero:w-1/2 hero:justify-end ">
-                                <img src="/banner.png" alt="banner" className="max-h-[450px] hero:max-h-[1000px] w-auto object-cover object-bottom block" />
+                                <img src="/banner.png" alt="banner" className="max-h-112.5 hero:max-h-250 w-auto object-cover object-bottom block" />
                             </div>
                         </div>
                     </div>

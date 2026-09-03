@@ -11,7 +11,7 @@ function PromoSection() {
                         <button className="text-[#2DC071] border-[#2DC071] border rounded-sm text-sm px-10 py-4 cursor-pointer hover:bg-emerald-600 hover:text-white">Read More</button>
                     </div>
                 </div>
-                <div className="flex justify-center items-center w-full md:w-[60%] aspect-square max-h-[380px] md:max-h-none">
+                <div className="flex justify-center items-center w-full md:w-[60%] aspect-square max-h-95 md:max-h-none">
                     <img
                         src="/promo.png"
                         alt="Neural Universe Promo"

@@ -3,12 +3,95 @@ import Products from "../components/Products";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAws, FaHooli, FaLyft, FaPiedPiperHat, FaRedditAlien, FaStripe } from "react-icons/fa";
+import Brands from "../components/Brands";
 const shopCategories = [
     { id: 1, title: "CLOTHS", count: "5 Items", img: "/shop1.jpg" },
     { id: 2, title: "CLOTHS", count: "5 Items", img: "/shop2.jpg" },
     { id: 3, title: "CLOTHS", count: "5 Items", img: "/shop3.jpg" },
     { id: 4, title: "CLOTHS", count: "5 Items", img: "/shop4.jpg" },
     { id: 5, title: "CLOTHS", count: "5 Items", img: "/shop5.jpg" },
+];
+const products = [
+    {
+        id: 1,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product1.jpg",
+    },
+    {
+        id: 2,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product2.jpg",
+    },
+    {
+        id: 3,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product3.jpg",
+    },
+    {
+        id: 4,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product4.jpg",
+    },
+    {
+        id: 5,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product5.jpg",
+    },
+    {
+        id: 6,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product6.jpg",
+    },
+    {
+        id: 7,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product7.jpg",
+    },
+    {
+        id: 8,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product8.jpg",
+    },
+    {
+        id: 9,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product7.jpg",
+    },
+    {
+        id: 10,
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        price: "$6.48",
+        img: "/product8.jpg",
+    }
 ];
 function ShopPage() {
     const [viewMode, setViewMode] = useState('grid');
@@ -49,8 +132,8 @@ function ShopPage() {
 
 
             <section className="bg-white py-20">
-                <div className="layout-flex gap-[48px]">
-                    <div className="flex flex-col items-center justify-center gap-[30px] md:justify-between md:flex-row">
+                <div className="layout-flex gap-12">
+                    <div className="flex flex-col items-center justify-center gap-7.5 md:justify-between md:flex-row">
                         <h6 className="text-[#737373]">Showing All 12 Results</h6>
                         <div className="flex flex-row justify-center items-center gap-2">
                             <h6 className="text-[#737373]">Views:</h6>
@@ -102,7 +185,7 @@ function ShopPage() {
                             </button>
                         </form>
                     </div>
-                    <Products viewMode={viewMode} currentPage={currentPage} />
+                    <Products viewMode={viewMode} currentPage={currentPage} products={products} />
                     <div className="flex justify-center w-full">
                         <div className="flex justify-center items-center text-[#23A6F0] border border-[#DDDDDD] rounded-md divide-x divide-[#DDDDDD] shadow-xs">
                             <button
@@ -144,18 +227,7 @@ function ShopPage() {
                     </div>
                 </div>
             </section >
-
-
-            <section className="bg-[#FAFAFA] py-8">
-                <div className="layout-flex items-center justify-center gap-7 sm:flex-row sm:justify-between">
-                    <FaHooli className="text-8xl text-[#737373] text-center" />
-                    <FaLyft className="text-8xl text-[#737373] text-center" />
-                    <FaPiedPiperHat className="text-8xl text-[#737373] text-center" />
-                    <FaStripe className="text-8xl text-[#737373] text-center" />
-                    <FaAws className="text-8xl text-[#737373] text-center" />
-                    <FaRedditAlien className="text-8xl text-[#737373] text-center" />
-                </div>
-            </section>
+            <Brands />
         </>
 
     );
