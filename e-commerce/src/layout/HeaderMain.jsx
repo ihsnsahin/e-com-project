@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronUp, Heart, Search, ShoppingCart, User, UserPlus, X } from "lucide-react";
 import { useState } from "react";
 import { BiMenuAltRight } from "react-icons/bi";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 
 function HeaderMain() {
     const [isMenuOpen, setMenuOpen] = useState(false);

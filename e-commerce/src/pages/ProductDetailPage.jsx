@@ -101,14 +101,14 @@ function ProductDetailPage() {
                     <ProductOverview />
                 </div>
             </section>
-
+            <ProductTabs />
             <section className="bg-[#FAFAFA] py-20">
                 <div className="layout-flex gap-12">
                     <ProductsHeader />
                     <Products products={products} />
                 </div>
             </section>
-            <ProductTabs />
+
 
             <Brands />
         </>)
