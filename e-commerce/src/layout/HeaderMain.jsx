@@ -69,6 +69,11 @@ function HeaderMain() {
                         onClick={closeAll}
                     >Blog</Link>
                     <Link
+                        to="/team"
+                        className="inline-block text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
+                        onClick={closeAll}
+                    >Team</Link>
+                    <Link
                         to="/contact"
                         className="inline-block text-2xl nav:text-sm text-[#737373] font-normal  nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
                         onClick={closeAll}

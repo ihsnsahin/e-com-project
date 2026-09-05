@@ -24,7 +24,7 @@ function ContactPage() {
     ];
     return (
         <>
-            <section className="bg-white py-8">
+            <section className="bg-white py-30">
                 <div className="layout-flex gap-7 md:flex-row md:justify-between">
                     <div className="flex flex-col w-full items-center  py-6 md:py-0 justify-center md:items-start md:max-w-sm gap-10">
                         <h5 className="text-base text-center">CONTACT US</h5>
@@ -53,7 +53,7 @@ function ContactPage() {
                 </div>
             </section>
 
-            <section className="bg-[#FAFAFA] flex flex-col gap-20 py-40">
+            <section className="bg-[#FAFAFA] flex flex-col gap-20 py-30">
                 <div className="layout-flex items-center justify-center">
                     <div className="flex flex-col justify-center items-center gap-2.5 max-w-2xs md:max-w-lg">
                         <h6 className="text-center">VISIT OUR OFFICE</h6>
@@ -76,7 +76,7 @@ function ContactPage() {
                 </div>
             </section>
 
-            <section className="bg-white py-40">
+            <section className="bg-white py-20">
                 <div className="layout-flex items-center justify-center">
                     <div className="flex flex-col justify-center items-center gap-7 max-w-2xs md:max-w-lg">
                         <img src="/arrow.png" alt="arrow" className="w-[72px] object-contain mb-4" />
