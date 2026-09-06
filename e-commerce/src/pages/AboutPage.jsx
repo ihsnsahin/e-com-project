@@ -140,21 +140,26 @@ function AboutPage() {
                 </div>
             </section>
 
-            <section className="bg-[#2A7CC7] flex items-center py-15 md:py-28 lg:py-0">
-                <div className="flex flex-col  w-full px-9 md:max-w-5xl md:mx-auto lg:px-0 items-center  text-white py-6 md:py-0 justify-center md:items-start gap-6">
-                    <h5 className="text-base text-center">WORK WITH US</h5>
-                    <h2 className="text-4xl text-center md:text-5xl md:max-w-2xl md:text-left">Now Let’s grow Yours</h2>
-                    <h4 className="text-xl font-normal text-center md:max-w-2xl md:text-left">The gradual accumulation of information about atomic and
-                        small-scale behavior during the first quarter of the 20th </h4>
-                    <button className="border border-white rounded-md py-4 px-10">
-                        BUTTON
-                    </button>
-                </div>
-                <div className="hidden lg:block aspect-[4/5] w-1/3 min-h-[600px]">
-                    <img src="/aboutbanner.jpg" alt="" className="w-full h-full object-cover" />
+            <section className="relative bg-[#2A7CC7] py-15 md:py-28 overflow-hidden">
+                <div className="layout-flex md:flex-row">
+                    <div className="flex flex-col w-full items-center text-white py-6 md:py-12 justify-center md:items-start md:max-w-xl gap-6">
+                        <h5 className="text-base text-center">WORK WITH US</h5>
+                        <h2 className="text-4xl text-center md:text-5xl md:max-w-2xl md:text-left">Now Let’s grow Yours</h2>
+                        <h4 className="text-xl font-normal text-center md:max-w-2xl md:text-left">The gradual accumulation of information about atomic and
+                            small-scale behavior during the first quarter of the 20th </h4>
+                        <button className="border border-white rounded-md py-4 px-10 transition-colors duration-300 hover:text-[#2A7CC7] hover:bg-white cursor-pointer">
+                            GET IN TOUCH
+                        </button>
+                    </div>
+                    <div className="hidden lg:block absolute top-0 right-0 h-full w-[40%] xl:w-[35%] aspect-[5/6]">
+                        <img
+                            src="/aboutbanner.jpg"
+                            alt=""
+                            className="w-full h-full object-cover object-center"
+                        />
+                    </div>
                 </div>
             </section>
-
         </>
 
     )
