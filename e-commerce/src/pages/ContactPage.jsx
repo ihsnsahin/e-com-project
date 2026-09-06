@@ -76,6 +76,15 @@ function ContactPage() {
                 </div>
             </section>
 
+            <section className="bg-[#FAFAFA] flex flex-col gap-20 py-30">
+                <div className="layout-flex items-center justify-center">
+                    <div className="flex flex-col justify-center items-center gap-2.5 max-w-2xs md:max-w-lg">
+                        <h6 className="text-center">VISIT OUR OFFICE</h6>
+                        <h2 className="text-4xl text-center">We help small businesses with big ideas</h2>
+                    </div>
+                </div>
+            </section>
+
             <section className="bg-white py-20">
                 <div className="layout-flex items-center justify-center">
                     <div className="flex flex-col justify-center items-center gap-7 max-w-2xs md:max-w-lg">
