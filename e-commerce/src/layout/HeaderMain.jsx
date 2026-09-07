@@ -90,7 +90,7 @@ function HeaderMain() {
                     </Link>
 
                     <Link
-                        to="/register"
+                        to="/signup"
                         onClick={closeAll}
                         className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
                     >
