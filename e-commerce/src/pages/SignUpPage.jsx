@@ -4,12 +4,16 @@ import { API } from "../services/api";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRoles } from "../store/actions/clientActions";
 
 function SignUpPage() {
-    const [roles, setRoles] = useState([]);
+    //const [roles, setRoles] = useState([]);
+    const dispatch = useDispatch();
+    const roles = useSelector((store) => store.client.roles);
     const { register, handleSubmit, watch, reset, formState: { errors, isValid, isSubmitting } } = useForm({
         mode: "onChange",
-        shouldUnregister: true,
+        shouldUnregister: true,//Bir form alanı DOM'dan kaldırılırsa, o alanın form state'indeki değerini ve validation bilgisini de sil.
         defaultValues: {
             role_id: 3
         }
@@ -19,14 +23,7 @@ function SignUpPage() {
     const isStore = selectedRole?.code === "store";
 
     useEffect(() => {
-        API.get("/roles").then(
-            (response) => {
-                console.log(response.data);
-                setRoles(response.data);
-            }
-        ).catch(
-            (error) => { console.log(error) }
-        )
+        dispatch(fetchRoles())
     }, []);
 
     const history = useHistory();
