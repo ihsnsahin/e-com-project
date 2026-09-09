@@ -8,9 +8,16 @@ import TeamPage from './pages/TeamPage';
 import AboutPage from './pages/AboutPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { verifyUser } from './store/actions/clientActions';
 
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(verifyUser());
+  }, [])
   return (
     <PageContent>
       <Switch>

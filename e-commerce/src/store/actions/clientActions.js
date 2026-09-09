@@ -32,7 +32,7 @@ export const setLanguage = (language) => {
     return { type: SET_LANGUAGE, payload: language };
 };
 
-export const fetchRoles = () => (dispatch, getState) => {
+export const fetchRoles = () => (dispatch) => {
     API.get("/roles").then(
         (response) => {
             dispatch(setRoles(response.data))
@@ -41,6 +41,7 @@ export const fetchRoles = () => (dispatch, getState) => {
         (error) => { console.log(error) }
     )
 }
+
 export const logUser = (data) => (dispatch) => {
     const payload = {
         email: data.email,
@@ -67,4 +68,23 @@ export const logUser = (data) => (dispatch) => {
                 throw error;
             }
         )
+}
+export const verifyUser = () => (dispatch) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) return;
+    API.defaults.headers.common["Authorization"] = token;
+    API.get("/verify").then((response) => {
+        const user = response.data
+        dispatch(setUser(user));
+        //Yanıtta gelen token ile bilgilerimizi güncelliyoruz.
+        API.defaults.headers.common["Authorization"] = user.token;
+        localStorage.setItem("token", user.token)
+    })
+        .catch((error) => {
+            console.error("Token doğrulanamadı veya süresi dolmuş:", error);
+            dispatch(setUser(null));
+            delete API.defaults.headers.common["Authorization"];
+            localStorage.removeItem("token");
+        });
 }
