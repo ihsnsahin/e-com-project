@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { API } from "../../services/api";
 
 export const SET_USER = "SET_USER";
@@ -38,5 +40,31 @@ export const fetchRoles = () => (dispatch, getState) => {
     ).catch(
         (error) => { console.log(error) }
     )
-
+}
+export const logUser = (data) => (dispatch) => {
+    const payload = {
+        email: data.email,
+        password: data.password,
+    };
+    return API.post("/login", payload)
+        .then(
+            (response) => {
+                const user = response.data
+                dispatch(setUser(user));
+                if (user.token) {
+                    API.defaults.headers.common["Authorization"] = user.token;
+                    if (data.remember) {
+                        localStorage.setItem("token", user.token);
+                    }
+                }
+                toast.success("Başarıyla giriş yapıldı!");
+                return user;
+            }
+        ).catch(
+            (error) => {
+                const errorMsg = error.response?.data?.message || "Giriş başarısız! E-posta veya şifre hatalı.";
+                toast.error(errorMsg);
+                throw error;
+            }
+        )
 }

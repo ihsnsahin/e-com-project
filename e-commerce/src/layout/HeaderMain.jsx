@@ -1,11 +1,15 @@
-import { ChevronDown, ChevronUp, Heart, Search, ShoppingCart, User, UserPlus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Heart, LogOut, Search, ShoppingCart, User, UserPlus, X } from "lucide-react";
 import { useState } from "react";
+import Gravatar from "react-gravatar";
 import { BiMenuAltRight } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function HeaderMain() {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isShopOpen, setShopOpen] = useState(false);
+
+    const user = useSelector((state) => state.client.user);
 
     const handleClick = () => {
         setMenuOpen((prev) => !prev);
@@ -80,23 +84,36 @@ function HeaderMain() {
                     >Contact</Link>
                 </nav>
                 <div className={`${isMenuOpen ? "flex" : "hidden"} nav:flex  flex-col nav:flex-row items-center justify-center gap-7 text-[#23A6F0]`}>
-                    <Link
-                        to="/login"
-                        onClick={closeAll}
-                        className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
-                    >
-                        <User className="w-7 h-7 nav:w-4 nav:h-4" />
-                        <span className="text-2xl nav:text-sm font-normal nav:font-bold">Login</span>
-                    </Link>
-
-                    <Link
-                        to="/signup"
-                        onClick={closeAll}
-                        className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
-                    >
-                        <UserPlus className="w-7 h-7 nav:w-4 nav:h-4" />
-                        <span className="text-2xl nav:text-sm font-normal nav:font-bold">Register</span>
-                    </Link>
+                    {user && user.email ? (
+                        <div className="flex items-center gap-2 cursor-pointer transition-transform duration-200 ease-in-out">
+                            <Gravatar
+                                email={user.email}
+                                size={36}
+                                default="identicon"
+                                className="w-9 h-9 nav:w-7 nav:h-7 rounded-full border border-[#23A6F0]/30 object-cover text-[#252B42]"
+                            />
+                            <span className="text-2xl nav:text-sm font-normal nav:font-bold text-[#252B42]">
+                                {user.name || user.email}
+                            </span>
+                        </div>
+                    ) : <>
+                        <Link
+                            to="/login"
+                            onClick={closeAll}
+                            className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
+                        >
+                            <User className="w-7 h-7 nav:w-4 nav:h-4" />
+                            <span className="text-2xl nav:text-sm font-normal nav:font-bold">Login</span>
+                        </Link>
+                        <Link
+                            to="/signup"
+                            onClick={closeAll}
+                            className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105"
+                        >
+                            <UserPlus className="w-7 h-7 nav:w-4 nav:h-4" />
+                            <span className="text-2xl nav:text-sm font-normal nav:font-bold">Register</span>
+                        </Link>
+                    </>}
 
                     <Search className="w-7 h-7 nav:w-4 nav:h-4 cursor-pointer transition-transform duration-200 hover:scale-110" />
 
