@@ -11,11 +11,13 @@ import LoginPage from './pages/LoginPage';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { verifyUser } from './store/actions/clientActions';
+import { fetchCategories } from './store/actions/productActions';
 
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(fetchCategories());
     dispatch(verifyUser());
   }, [])
   return (
@@ -25,6 +27,9 @@ function App() {
           <HomePage />
         </Route>
         <Route path="/shop" exact>
+          <ShopPage />
+        </Route>
+        <Route path="/shop/:gender/:categoryName/:categoryId" exact>
           <ShopPage />
         </Route>
         <Route path="/shop/:id">

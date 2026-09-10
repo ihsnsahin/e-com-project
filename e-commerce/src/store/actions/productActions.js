@@ -1,3 +1,5 @@
+import { API } from "../../services/api";
+
 export const SET_CATEGORIES = "SET_CATEGORIES";
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_TOTAL = "SET_TOTAL";
@@ -33,3 +35,13 @@ export const setOffset = (offset) => {
 export const setFilter = (filter) => {
     return { type: SET_FILTER, payload: filter };
 };
+
+export const fetchCategories = () => (dispatch) => {
+    API.get("/categories")
+        .then((response) => {
+            console.log(response.data);
+            dispatch(setCategories(response.data));
+        }
+        )
+        .catch((error) => console.log(error))
+}

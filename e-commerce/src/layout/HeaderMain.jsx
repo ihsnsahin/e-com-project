@@ -10,6 +10,10 @@ function HeaderMain() {
     const [isShopOpen, setShopOpen] = useState(false);
 
     const user = useSelector((state) => state.client.user);
+    const categories = useSelector((state) => state.product.categories);
+
+    const femaleCategories = categories.filter((cat) => cat.gender === "k");
+    const maleCategories = categories.filter((cat) => cat.gender === "e");
 
     const handleClick = () => {
         setMenuOpen((prev) => !prev);
@@ -41,25 +45,39 @@ function HeaderMain() {
                             {isShopOpen ? <ChevronUp className="w-4 h-4 text-[#737373] " /> : <ChevronDown className="w-4 h-4 text-[#737373] " />}
                         </button>
                         {isShopOpen &&
-                            <nav className="flex flex-col items-center justify-center gap-4 
-                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:left-0 nav:w-30 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start">
-                                <Link
-                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
-                                    onClick={closeAll}
-                                >Men</Link>
-                                <Link
-                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
-                                    onClick={closeAll}
-                                >Women</Link>
-                                <Link
-                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
-                                    onClick={closeAll}
-                                >Kids</Link>
-                                <Link
-                                    className="inline-block text-xl nav:text-xs text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#252B42]"
-                                    onClick={closeAll}
-                                >Accessories</Link>
-                            </nav>}
+                            <nav className="flex flex-row items-start justify-center gap-20 
+                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:left-0 nav:w-60 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start">
+                                <div className="flex flex-col items-start justify-center gap-4">
+                                    <h3 className="text-xl nav:text-xs font-bold">Kadın</h3>
+                                    {femaleCategories.map((cat) => {
+                                        const categoryCodeName = cat.code.split(":")[1];
+                                        const gender = cat.gender === "k" ? "kadin" : "erkek";
+                                        return (<Link
+                                            key={cat.id}
+                                            to={`/shop/${gender}/${categoryCodeName}/${cat.id}`}
+                                            className="inline-block text-xl nav:text-xs text-[#737373] font-normal transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#23A6F0]"
+                                            onClick={closeAll}
+                                        >{cat.title}</Link>)
+                                    }
+                                    )}
+                                </div>
+                                <div className="flex flex-col items-start justify-center gap-4">
+                                    <h3 className="text-xl nav:text-xs font-bold">Erkek</h3>
+                                    {maleCategories.map((cat) => {
+                                        const categoryCodeName = cat.code.split(":")[1];
+                                        const gender = cat.gender === "k" ? "kadin" : "erkek";
+                                        return (<Link
+                                            key={cat.id}
+                                            to={`/shop/${gender}/${categoryCodeName}/${cat.id}`}
+                                            className="inline-block text-xl nav:text-xs text-[#737373] font-normal transition-transform duration-200 ease-in-out hover:scale-105 hover:text-[#23A6F0]"
+                                            onClick={closeAll}
+                                        >{cat.title}</Link>)
+                                    })
+                                    }
+
+                                </div>
+                            </nav>
+                        }
                     </div>
 
                     <Link
