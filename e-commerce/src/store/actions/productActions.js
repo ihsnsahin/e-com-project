@@ -39,9 +39,22 @@ export const setFilter = (filter) => {
 export const fetchCategories = () => (dispatch) => {
     API.get("/categories")
         .then((response) => {
-            console.log(response.data);
             dispatch(setCategories(response.data));
         }
         )
         .catch((error) => console.log(error))
+}
+export const fetchProducts = (params) => (dispatch) => {
+    dispatch(setFetchState("FETCHING"));
+    API.get("/products", { params })
+        .then((response) => {
+            console.log(response.data);
+            dispatch(setProductList(response.data.products));
+            dispatch(setTotal(response.data.total));
+            dispatch(setFetchState("FETCHED"));
+        })
+        .catch((error) => {
+            console.log(error);
+            dispatch(setFetchState("FAILED"));
+        })
 }

@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { useHistory } from "react-router-dom";
+
 
 function ProductCard({ product, viewMode }) {
     const history = useHistory();
@@ -17,18 +19,26 @@ function ProductCard({ product, viewMode }) {
         e.stopPropagation();
         history.push(`/shop/${product.id}`);
     }
+    const originalPrice = product.price ? (Number(product.price) * 1.2).toFixed(2) : "0.00";
+    const currentPrice = product.price ? Number(product.price).toFixed(2) : "0.00";
+    const formattedDescription = product.description
+        ? product.description.length > 25
+            ? product.description.slice(0, 25) + "..."
+            : product.description
+        : "";
+
     return (
         <div className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${viewMode === 'list'
             ? 'w-full sm:flex-row shadow-xs rounded-xs hover:shadow-lg p-4 gap-6 justify-start items-center'
-            : 'w-full transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-lg sm:w-[calc(50%-15px)] lg:w-[calc(25%-22.5px)]'
+            : 'w-full duration-500 ease-in-out hover:scale-105 hover:shadow-lg sm:w-[calc(50%-15px)] lg:w-[calc(25%-22.5px)]'
             }`}
             onClick={handleProductClick}>
             <div className={`relative overflow-hidden sm:overflow-visible group ${viewMode === 'list'
-                ? 'w-50 h-62.5rink-0'
+                ? 'w-50 h-62.5 shrink-0'
                 : 'w-full h-106.75'
                 }`}>
                 <img
-                    src={product.img}
+                    src={product.images?.[0]?.url}
                     alt="product"
                     className="w-full h-full object-contain lg:object-cover"
                 />
@@ -38,11 +48,11 @@ function ProductCard({ product, viewMode }) {
                 ? 'items-start justify-start flex-1 text-left'
                 : 'items-center justify-center'
                 }`}>
-                <h5 className="text-base">{product.title}</h5>
-                <span className="text-sm text-[#737373]">{product.department}</span>
+                <h5 className="text-base">{product.name}</h5>
+                <span className="text-sm text-[#737373]">{viewMode === "list" ? product.description : formattedDescription}</span>
                 <div className="flex gap-2">
-                    <h5 className="text-base text-[#BDBDBD]">{product.oldPrice}</h5>
-                    <h5 className="text-base text-[#23856D]">{product.price}</h5>
+                    <h5 className="text-base text-[#BDBDBD]">${originalPrice}</h5>
+                    <h5 className="text-base text-[#23856D]">${currentPrice}</h5>
                 </div>
                 <div className="flex gap-2">
                     {COLOR_OPTIONS.map((item) => (

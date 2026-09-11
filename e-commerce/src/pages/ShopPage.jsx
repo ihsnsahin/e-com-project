@@ -1,100 +1,32 @@
-import { ChevronRight, LayoutGrid, List } from "lucide-react";
+import { ChevronRight, LayoutGrid, List, Loader2 } from "lucide-react";
 import Products from "../components/Products";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Brands from "../components/Brands";
 import ShopCategories from "../components/ShopCategories";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../store/actions/productActions";
 
-const products = [
-    {
-        id: 1,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product1.jpg",
-    },
-    {
-        id: 2,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product2.jpg",
-    },
-    {
-        id: 3,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product3.jpg",
-    },
-    {
-        id: 4,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product4.jpg",
-    },
-    {
-        id: 5,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product5.jpg",
-    },
-    {
-        id: 6,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product6.jpg",
-    },
-    {
-        id: 7,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product7.jpg",
-    },
-    {
-        id: 8,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product8.jpg",
-    },
-    {
-        id: 9,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product7.jpg",
-    },
-    {
-        id: 10,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product8.jpg",
-    }
-];
 function ShopPage() {
     const [viewMode, setViewMode] = useState('grid');
     const [myFilter, setMyFilter] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
 
+
+    const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 5;
     const startPage = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
     const pages = Array.from({ length: Math.min(3, totalPages) }, (_, i) => startPage + i);
+
+    const { categoryId } = useParams();
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.product.productList);
+    const total = useSelector((state) => state.product.total);
+    const fetchState = useSelector((state) => state.product.fetchState);
+
+    useEffect(() => {
+        const queryParams = categoryId ? { category: categoryId } : undefined;
+        dispatch(fetchProducts(queryParams));
+    }, [dispatch, categoryId]);
 
     return (
         <>
@@ -115,7 +47,7 @@ function ShopPage() {
             <section className="bg-white py-20">
                 <div className="layout-flex gap-12">
                     <div className="flex flex-col items-center justify-center gap-7.5 md:justify-between md:flex-row">
-                        <h6 className="text-[#737373]">Showing All 12 Results</h6>
+                        <h6 className="text-[#737373]">Showing All {total} Results</h6>
                         <div className="flex flex-row justify-center items-center gap-2">
                             <h6 className="text-[#737373]">Views:</h6>
                             <button
@@ -166,7 +98,21 @@ function ShopPage() {
                             </button>
                         </form>
                     </div>
-                    <Products viewMode={viewMode} currentPage={currentPage} products={products} />
+
+
+                    {fetchState === "FETCHING" && (
+                        <div className="flex flex-col justify-center items-center">
+                            <Loader2 className="animate-spin h-16 w-16 text-[#23A6F0]" />
+                        </div>
+                    )}
+                    {fetchState === "FAILED" && (
+                        <div className="text-center py-20 text-red-500 font-semibold">
+                            Ürünler yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin.
+                        </div>
+                    )}
+                    {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} fetchState={fetchState} />}
+
+
                     <div className="flex justify-center w-full">
                         <div className="flex justify-center items-center text-[#23A6F0] border border-[#DDDDDD] rounded-md divide-x divide-[#DDDDDD] shadow-xs">
                             <button

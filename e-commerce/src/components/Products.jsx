@@ -1,12 +1,16 @@
 import ProductCard from "./ProductCard";
 
 function Products({ products, viewMode }) {
-    const displayProducts = products.length > 0
-        ? products
-        : Array.from({ length: 8 }, (_, i) => ({ id: i + 1 }));
+    if (!products || products.length === 0) {
+        return (
+            <div className="text-center py-16 text-[#737373] font-medium w-full">
+                Bu kategoride henüz ürün bulunmuyor.
+            </div>
+        );
+    }
     return (
         <div className={`flex flex-wrap justify-center gap-7.5 ${viewMode === 'list' ? 'flex-col items-center' : 'sm:flex-row'}`}>
-            {displayProducts.map((product) => (
+            {products.map((product) => (
                 <ProductCard key={product.id} product={product} viewMode={viewMode} />
             ))}
         </div>
