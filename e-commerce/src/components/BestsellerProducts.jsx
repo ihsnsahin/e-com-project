@@ -3,7 +3,7 @@ import Products from "./Products";
 import ProductsHeader from "./ProductsHeader";
 import { useEffect } from "react";
 import { fetchProducts } from "../store/actions/productActions";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 function BestSellerProduct() {
     const dispatch = useDispatch();
@@ -23,11 +23,19 @@ function BestSellerProduct() {
                 </div>
             )}
             {fetchState === "FAILED" && (
-                <div className="text-center py-20 text-red-500 font-semibold">
-                    Ürünler yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin.
+                <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+                    <div className="p-4 rounded-full bg-red-50 text-red-500">
+                        <AlertCircle className="w-8 h-8" />
+                    </div>
+                    <div>
+                        <h4 className="text-lg font-semibold text-gray-800">Failed to Load Products</h4>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Something went wrong while fetching the products.
+                        </p>
+                    </div>
                 </div>
             )}
-            <Products products={sortedProducts} fetchState={fetchState} />
+            {fetchState === "FETCHED" && <Products products={sortedProducts} fetchState={fetchState} />}
         </div>
     </section>
 }

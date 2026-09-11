@@ -1,10 +1,20 @@
 import ProductCard from "./ProductCard";
 
-function Products({ products, viewMode }) {
+function Products({ products, viewMode, onResetFilters }) {
     if (!products || products.length === 0) {
         return (
-            <div className="text-center py-16 text-[#737373] font-medium w-full">
-                Bu kategoride henüz ürün bulunmuyor.
+            <div className="flex flex-col items-center justify-center py-16 gap-4 text-center w-full">
+                <p className="text-[#737373] text-lg">
+                    No products found matching your selected criteria.
+                </p>
+                {onResetFilters && (
+                    <button
+                        onClick={onResetFilters}
+                        className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer px-6 py-3 rounded-sm w-full sm:w-auto"
+                    >
+                        Reset Filters
+                    </button>
+                )}
             </div>
         );
     }

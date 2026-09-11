@@ -21,11 +21,10 @@ function ProductCard({ product, viewMode }) {
     }
     const originalPrice = product.price ? (Number(product.price) * 1.2).toFixed(2) : "0.00";
     const currentPrice = product.price ? Number(product.price).toFixed(2) : "0.00";
-    const formattedDescription = product.description
-        ? product.description.length > 25
-            ? product.description.slice(0, 25) + "..."
-            : product.description
-        : "";
+    const descriptionText = product.description || "";
+    const formattedDescription = descriptionText.length > 25
+        ? descriptionText.slice(0, 25) + "..."
+        : descriptionText;
 
     return (
         <div className={`flex flex-col items-center justify-center transition-all duration-300 cursor-pointer ${viewMode === 'list'
@@ -49,7 +48,7 @@ function ProductCard({ product, viewMode }) {
                 : 'items-center justify-center'
                 }`}>
                 <h5 className="text-base">{product.name}</h5>
-                <span className="text-sm text-[#737373]">{viewMode === "list" ? product.description : formattedDescription}</span>
+                <span className="text-sm text-[#737373]">{viewMode === "list" ? descriptionText : formattedDescription}</span>
                 <div className="flex gap-2">
                     <h5 className="text-base text-[#BDBDBD]">${originalPrice}</h5>
                     <h5 className="text-base text-[#23856D]">${currentPrice}</h5>

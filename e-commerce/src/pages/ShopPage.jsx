@@ -1,33 +1,67 @@
-import { ChevronRight, LayoutGrid, List, Loader2 } from "lucide-react";
+import { AlertCircle, ChevronRight, LayoutGrid, List, Loader2 } from "lucide-react";
 import Products from "../components/Products";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Brands from "../components/Brands";
 import ShopCategories from "../components/ShopCategories";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/actions/productActions";
+import { useForm } from "react-hook-form";
 
 function ShopPage() {
+    const { register, handleSubmit, getValues, reset } = useForm({
+        mode: "onChange", defaultValues: {
+            sort: "",
+            filter: ""
+        }
+    })
+    const history = useHistory();
+    //Type of List
     const [viewMode, setViewMode] = useState('grid');
-    const [myFilter, setMyFilter] = useState("");
 
-
+    //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 5;
     const startPage = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
     const pages = Array.from({ length: Math.min(3, totalPages) }, (_, i) => startPage + i);
 
+
+    //Fetch Products
     const { categoryId } = useParams();
     const dispatch = useDispatch();
     const products = useSelector((state) => state.product.productList);
     const total = useSelector((state) => state.product.total);
     const fetchState = useSelector((state) => state.product.fetchState);
 
-    useEffect(() => {
-        const queryParams = categoryId ? { category: categoryId } : undefined;
-        dispatch(fetchProducts(queryParams));
-    }, [dispatch, categoryId]);
+    const getProducts = () => {
+        const formValues = getValues();
+        const queryParams = {};
 
+        if (categoryId) {
+            queryParams.category = categoryId;
+        }
+        if (formValues.filter && formValues.filter.trim() !== "") {
+            queryParams.filter = formValues.filter;
+        }
+        if (formValues.sort && formValues.sort.trim() !== "") {
+            queryParams.sort = formValues.sort;
+        }
+        dispatch(fetchProducts(queryParams));
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, [categoryId]);
+
+
+    const submitFn = () => {
+        getProducts();
+    }
+
+    const handleResetFilters = () => {
+        reset();
+        getProducts();
+    };
     return (
         <>
             <section className="bg-[#FAFAFA] py-8">
@@ -42,7 +76,6 @@ function ShopPage() {
             </section>
 
             <ShopCategories />
-
 
             <section className="bg-white py-20">
                 <div className="layout-flex gap-12">
@@ -71,24 +104,25 @@ function ShopPage() {
                         </div>
 
                         <form className="flex flex-col w-full sm:w-auto sm:flex-row items-center justify-center gap-2"
-                            onSubmit={(e) => e.preventDefault()}>
+                            onSubmit={handleSubmit(submitFn)}>
                             <input
                                 type="text"
                                 placeholder="Search Products"
+                                {...register("filter")}
                                 className="text-[#737373] font-normal px-4 py-3 rounded-sm bg-[#F9F9F9] border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full sm:w-auto"
                             />
                             <select
-                                name="sortBy"
-                                id="sortBy"
-                                value={myFilter}
-                                onChange={(e) => setMyFilter(e.target.value)}
+                                name="sort"
+                                id="sort"
+                                {...register("sort")}
+
                                 className="text-[#737373] font-normal px-4 py-3 rounded-sm bg-[#F9F9F9] border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full sm:w-auto"
                             >
-                                <option value="" disabled>Sort By</option>
-                                <option value="asc">Price: Low to High</option>
-                                <option value="desc">Price: High to Low</option>
-                                <option value="az">Name: A to Z</option>
-                                <option value="za">Name: Z to A</option>
+                                <option value="">Sort By</option>
+                                <option value="price:asc">Price: Low to High</option>
+                                <option value="price:desc">Price: High to Low</option>
+                                <option value="rating:asc">Rating: Low to High</option>
+                                <option value="rating:desc">Rating: High to Low</option>
                             </select>
                             <button
                                 type="submit"
@@ -106,11 +140,25 @@ function ShopPage() {
                         </div>
                     )}
                     {fetchState === "FAILED" && (
-                        <div className="text-center py-20 text-red-500 font-semibold">
-                            Ürünler yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin.
+                        <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+                            <div className="p-4 rounded-full bg-red-50 text-red-500">
+                                <AlertCircle className="w-8 h-8" />
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-semibold text-gray-800">Failed to Load Products</h4>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Something went wrong while fetching the products. Please try again.
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => getProducts()}
+                                className="px-6 py-2.5 bg-[#23A6F0] text-white rounded-sm hover:bg-[#1d91d1] transition-colors duration-200 text-sm font-medium cursor-pointer"
+                            >
+                                Try Again
+                            </button>
                         </div>
                     )}
-                    {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} fetchState={fetchState} />}
+                    {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} fetchState={fetchState} onResetFilters={handleResetFilters} />}
 
 
                     <div className="flex justify-center w-full">
