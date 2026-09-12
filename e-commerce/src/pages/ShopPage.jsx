@@ -1,67 +1,106 @@
 import { AlertCircle, ChevronRight, LayoutGrid, List, Loader2 } from "lucide-react";
 import Products from "../components/Products";
-import { useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Brands from "../components/Brands";
 import ShopCategories from "../components/ShopCategories";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../store/actions/productActions";
+import { fetchProducts, setFilter, setOffset } from "../store/actions/productActions";
 import { useForm } from "react-hook-form";
+import Pagination from "../components/Pagination";
+
 
 function ShopPage() {
-    const { register, handleSubmit, getValues, reset } = useForm({
-        mode: "onChange", defaultValues: {
+    const { register, handleSubmit, reset } = useForm({
+        mode: "onChange",
+        defaultValues: {
             sort: "",
             filter: ""
         }
-    })
-    const history = useHistory();
+    });
     //Type of List
     const [viewMode, setViewMode] = useState('grid');
-
-    //Pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 5;
-    const startPage = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
-    const pages = Array.from({ length: Math.min(3, totalPages) }, (_, i) => startPage + i);
-
-
-    //Fetch Products
+    //Unless form values submit, we use default values or last values
+    const [appliedFilters, setAppliedFilters] = useState({ filter: "", sort: "" });
+    //We are monitoring whether the category ID has changed
     const { categoryId } = useParams();
+    const previousCategoryId = useRef(categoryId);
+    //Fetch Products
     const dispatch = useDispatch();
     const products = useSelector((state) => state.product.productList);
     const total = useSelector((state) => state.product.total);
     const fetchState = useSelector((state) => state.product.fetchState);
+    //For pagination use limit from store
+    const limit = useSelector((state) => state.product.limit);
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(total / limit);
+    const startPage = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
+    const pages = Array.from({ length: Math.min(3, totalPages) }, (_, i) => startPage + i);
+    //We are controlling all parameters only one place
+    const getProducts = (filtersToUse = appliedFilters) => {
+        const newOffset = (currentPage - 1) * limit;
 
-    const getProducts = () => {
-        const formValues = getValues();
-        const queryParams = {};
+        dispatch(setOffset(newOffset));
+        dispatch(setFilter(filtersToUse.filter?.trim() || ""));
+
+        const queryParams = {
+            limit,
+            offset: newOffset
+        };
 
         if (categoryId) {
             queryParams.category = categoryId;
         }
-        if (formValues.filter && formValues.filter.trim() !== "") {
-            queryParams.filter = formValues.filter;
+
+        if (filtersToUse.filter?.trim()) {
+            queryParams.filter = filtersToUse.filter.trim();
         }
-        if (formValues.sort && formValues.sort.trim() !== "") {
-            queryParams.sort = formValues.sort;
+        if (filtersToUse.sort?.trim()) {
+            queryParams.sort = filtersToUse.sort.trim();
         }
+
         dispatch(fetchProducts(queryParams));
-    }
+    };
 
     useEffect(() => {
+        const categoryChanged = previousCategoryId.current !== categoryId;
+        if (categoryChanged) {
+            previousCategoryId.current = categoryId;
+
+            if (currentPage !== 1) {
+                setCurrentPage(1);
+                return;
+            }
+        }
+
         getProducts();
-    }, [categoryId]);
+
+        window.scrollTo({
+            top: 0,
+        });
+    }, [categoryId, currentPage, appliedFilters]);
 
 
-    const submitFn = () => {
-        getProducts();
-    }
+    const submitFn = (formValues) => {
+        setAppliedFilters(formValues);
+        if (currentPage !== 1) {
+            setCurrentPage(1);
+        }
+    };
 
     const handleResetFilters = () => {
-        reset();
-        getProducts();
+        const emptyFilters = {
+            sort: "",
+            filter: ""
+        };
+        reset(emptyFilters);
+        setAppliedFilters(emptyFilters);
+        if (currentPage !== 1) {
+            setCurrentPage(1);
+        }
     };
+
     return (
         <>
             <section className="bg-[#FAFAFA] py-8">
@@ -112,8 +151,6 @@ function ShopPage() {
                                 className="text-[#737373] font-normal px-4 py-3 rounded-sm bg-[#F9F9F9] border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full sm:w-auto"
                             />
                             <select
-                                name="sort"
-                                id="sort"
                                 {...register("sort")}
 
                                 className="text-[#737373] font-normal px-4 py-3 rounded-sm bg-[#F9F9F9] border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full sm:w-auto"
@@ -158,48 +195,10 @@ function ShopPage() {
                             </button>
                         </div>
                     )}
-                    {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} fetchState={fetchState} onResetFilters={handleResetFilters} />}
+                    {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} onResetFilters={handleResetFilters} />}
 
 
-                    <div className="flex justify-center w-full">
-                        <div className="flex justify-center items-center text-[#23A6F0] border border-[#DDDDDD] rounded-md divide-x divide-[#DDDDDD] shadow-xs">
-                            <button
-                                onClick={() => setCurrentPage(1)}
-                                disabled={currentPage === 1}
-                                className="px-4 py-5 hover:bg-gray-100 cursor-pointer disabled:text-[#BDBDBD] disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out"
-                            >
-                                First
-                            </button>
-                            <button
-                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                disabled={currentPage === 1}
-                                className="px-4 py-5 hover:bg-gray-100 cursor-pointer disabled:text-[#BDBDBD] disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out"
-                            >
-                                Prev
-                            </button>
-
-                            {pages.map((page) => (
-                                <button
-                                    key={page}
-                                    onClick={() => setCurrentPage(page)}
-                                    className={`px-4 py-5 cursor-pointer font-bold transition-all duration-300 ease-in-out ${currentPage === page
-                                        ? "bg-[#23A6F0] text-white"
-                                        : "hover:bg-gray-100 text-[#23A6F0]"
-                                        }`}
-                                >
-                                    {page}
-                                </button>
-                            ))}
-
-                            <button
-                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                disabled={currentPage === totalPages}
-                                className="px-4 py-5 hover:bg-gray-100 cursor-pointer disabled:text-[#BDBDBD] disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out"
-                            >
-                                Next
-                            </button>
-                        </div>
-                    </div>
+                    {totalPages > 1 && <Pagination pages={pages} currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />}
                 </div>
             </section >
             <Brands />

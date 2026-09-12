@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Products from "./Products";
 import ProductsHeader from "./ProductsHeader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchProducts } from "../store/actions/productActions";
 import { AlertCircle, Loader2 } from "lucide-react";
 
@@ -11,9 +11,17 @@ function BestSellerProduct() {
     const sortedProducts = [...products].sort((a, b) => b.sell_count - a.sell_count);
     const fetchState = useSelector((state) => state.product.fetchState);
 
+
+    const [visibleCount, setVisibleCount] = useState(8);
+    const displayedProducts = sortedProducts.slice(0, visibleCount);
     useEffect(() => {
-        dispatch(fetchProducts());
-    }, [dispatch]);
+        if (products.length === 0) {
+            dispatch(fetchProducts());
+        }
+    }, [dispatch, products.length]);
+    const handleLoadMore = () => {
+        setVisibleCount((prevCount) => prevCount + 8);
+    };
     return <section className="bg-[#FAFAFA] py-20">
         <div className="layout-flex gap-12">
             <ProductsHeader />
@@ -35,8 +43,16 @@ function BestSellerProduct() {
                     </div>
                 </div>
             )}
-            {fetchState === "FETCHED" && <Products products={sortedProducts} fetchState={fetchState} />}
+            {fetchState === "FETCHED" && <Products products={displayedProducts} fetchState={fetchState} />}
+            {visibleCount < sortedProducts.length && (
+                <div className="flex justify-center items-center">
+                    <button
+                        onClick={handleLoadMore}
+                        className="border border-[#23A6F0] text-[#23A6F0] py-4 px-10 rounded-sm w-full max-w-[260px] transition-colors duration-300 hover:bg-[#23A6F0] hover:text-white cursor-pointer">Load More Products</button>
+                </div>)}
+
         </div>
+
     </section>
 }
 export default BestSellerProduct;
