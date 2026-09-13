@@ -1,24 +1,32 @@
 import { useState } from "react";
-
+import { useSelector } from "react-redux";
+import slugify from "slugify";
 import { useHistory } from "react-router-dom";
 
-
+const COLOR_OPTIONS = [
+    { value: "blue", bgClass: "bg-[#23A6F0]", ringClass: "peer-checked:ring-[#23A6F0]" },
+    { value: "green", bgClass: "bg-[#23856D]", ringClass: "peer-checked:ring-[#23856D]" },
+    { value: "orange", bgClass: "bg-[#E77C40]", ringClass: "peer-checked:ring-[#E77C40]" },
+    { value: "black", bgClass: "bg-[#252B42]", ringClass: "peer-checked:ring-[#252B42]" },
+];
 function ProductCard({ product, viewMode }) {
     const history = useHistory();
     const [color, setColor] = useState("blue");
     function handleChange(event) {
         setColor(event.target.value);
     }
-    const COLOR_OPTIONS = [
-        { value: "blue", bgClass: "bg-[#23A6F0]", ringClass: "peer-checked:ring-[#23A6F0]" },
-        { value: "green", bgClass: "bg-[#23856D]", ringClass: "peer-checked:ring-[#23856D]" },
-        { value: "orange", bgClass: "bg-[#E77C40]", ringClass: "peer-checked:ring-[#E77C40]" },
-        { value: "black", bgClass: "bg-[#252B42]", ringClass: "peer-checked:ring-[#252B42]" },
-    ];
+
+    const productNameSlug = slugify(product.name, { lower: true, strict: true });
+    const shopCategories = useSelector((state) => state.product.categories);
+    const category = shopCategories.find((category) => category.id === product.category_id);
+    const categoryCodeName = category.code.split(":")[1];
+    const gender = category.gender === "k" ? "kadin" : "erkek";
     const handleProductClick = (e) => {
         e.stopPropagation();
-        history.push(`/shop/${product.id}`);
+        history.push(`/shop/${gender}/${categoryCodeName}/${category.id}/${productNameSlug}/${product.id}`);
     }
+
+
     const originalPrice = product.price ? (Number(product.price) * 1.2).toFixed(2) : "0.00";
     const currentPrice = product.price ? Number(product.price).toFixed(2) : "0.00";
     const descriptionText = product.description || "";

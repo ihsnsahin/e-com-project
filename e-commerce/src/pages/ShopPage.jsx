@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, setFilter, setOffset } from "../store/actions/productActions";
 import { useForm } from "react-hook-form";
 import Pagination from "../components/Pagination";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 function ShopPage() {
@@ -18,6 +19,8 @@ function ShopPage() {
             filter: ""
         }
     });
+
+    const history = useHistory();
     //Type of List
     const [viewMode, setViewMode] = useState('grid');
     //Unless form values submit, we use default values or last values
@@ -105,11 +108,11 @@ function ShopPage() {
         <>
             <section className="bg-[#FAFAFA] py-8">
                 <div className="layout-flex gap-7 sm:flex-row sm:justify-between">
-                    <h3 className="text-2xl text-center">Shop</h3>
+                    <h3 className="text-2xl text-center cursor-pointer" onClick={() => history.push("/shop")}>Shop</h3>
                     <div className="flex justify-center items-center text-sm">
                         <Link to="/" className="cursor-pointer">Home</Link>
                         <ChevronRight className="w-4 h-4 text-[#BDBDBD]" />
-                        <h6 className="text-[#737373]">Shop</h6>
+                        <h6 className="text-[#737373] cursor-pointer" onClick={() => history.push("/shop")}>Shop</h6>
                     </div>
                 </div>
             </section>
@@ -195,6 +198,7 @@ function ShopPage() {
                             </button>
                         </div>
                     )}
+
                     {fetchState === "FETCHED" && <Products viewMode={viewMode} products={products} onResetFilters={handleResetFilters} />}
 
 

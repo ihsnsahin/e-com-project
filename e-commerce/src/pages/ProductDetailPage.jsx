@@ -1,89 +1,32 @@
 import { Link } from "react-router-dom";
 import Brands from "../components/Brands";
-import { ArrowLeft, ChevronRight, Eye, Heart, ShoppingCart, Star } from "lucide-react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useState } from "react";
-import ProductsHeader from "../components/ProductsHeader";
-import Products from "../components/Products";
+import { AlertCircle, ArrowLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import ProductGallery from "../components/ProductGallery";
 import ProductOverview from "../components/ProductOverview";
 import ProductTabs from "../components/ProductTabs";
+import BestSellerProduct from "../components/BestsellerProducts";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProduct } from "../store/actions/productActions";
 
-const products = [
-    {
-        id: 1,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product1.jpg",
-    },
-    {
-        id: 2,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product2.jpg",
-    },
-    {
-        id: 3,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product3.jpg",
-    },
-    {
-        id: 4,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product4.jpg",
-    },
-    {
-        id: 5,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product5.jpg",
-    },
-    {
-        id: 6,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product6.jpg",
-    },
-    {
-        id: 7,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product7.jpg",
-    },
-    {
-        id: 8,
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        price: "$6.48",
-        img: "/product8.jpg",
-    }
-
-];
 
 function ProductDetailPage() {
     const history = useHistory();
+    const { productId } = useParams();
+    const dispatch = useDispatch();
+    useEffect(() => {
+
+        dispatch(fetchProduct(productId))
+
+    }, [dispatch, productId]);
+    const product = useSelector((state) => state.product.productDetail);
+    const fetchState = useSelector((state) => state.product.productDetailFetchState);
     return (
         <>
             <section className="bg-[#FAFAFA] py-8">
                 <div className="layout-flex gap-7 sm:flex-row sm:justify-between">
-                    <div className="flex justify-center items-center text-sm cursor-pointer text-[#737373] cursor-pointer transition-colors duration-200 ease-in-out hover:text-[#252B42]" onClick={() => history.goBack()}>
+                    <div className="flex justify-center items-center text-sm cursor-pointer text-[#737373] transition-colors duration-200 ease-in-out hover:text-[#252B42]" onClick={() => history.goBack()}>
                         <ArrowLeft className="w-4 h-4" />
                         <h6>Back</h6>
                     </div>
@@ -94,22 +37,35 @@ function ProductDetailPage() {
                     </div>
                 </div>
             </section>
-
-            <section className="bg-[#FAFAFA] py-8">
-                <div className="layout-flex gap-7 sm:flex-row sm:justify-between">
-                    <ProductGallery />
-                    <ProductOverview />
+            {fetchState === "FETCHING" && (
+                <div className="flex flex-col justify-center items-center">
+                    <Loader2 className="animate-spin h-16 w-16 text-[#23A6F0]" />
                 </div>
-            </section>
-            <ProductTabs />
-            <section className="bg-[#FAFAFA] py-20">
-                <div className="layout-flex gap-12">
-                    <ProductsHeader />
-                    <Products products={products} />
+            )}
+            {fetchState === "FAILED" && (
+                <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+                    <div className="p-4 rounded-full bg-red-50 text-red-500">
+                        <AlertCircle className="w-8 h-8" />
+                    </div>
+                    <div>
+                        <h4 className="text-lg font-semibold text-gray-800">Failed to Load Product</h4>
+                        <p className="text-sm text-gray-500 mt-1">
+                            Something went wrong while fetching the products. Please try again.
+                        </p>
+                    </div>
                 </div>
-            </section>
-
-
+            )}
+            {fetchState === "FETCHED" &&
+                <>
+                    <section className="bg-[#FAFAFA] py-8">
+                        <div className="layout-flex gap-7 sm:flex-row">
+                            <ProductGallery product={product} />
+                            <ProductOverview product={product} />
+                        </div>
+                    </section>
+                    <ProductTabs product={product} />
+                    <BestSellerProduct />
+                </>}
             <Brands />
         </>)
 

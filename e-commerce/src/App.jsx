@@ -29,12 +29,13 @@ function App() {
         <Route path="/shop" exact>
           <ShopPage />
         </Route>
+        <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" exact>
+          <ProductDetailPage />
+        </Route>
         <Route path="/shop/:gender/:categoryName/:categoryId" exact>
           <ShopPage />
         </Route>
-        <Route path="/shop/:id">
-          <ProductDetailPage />
-        </Route>
+
         <Route path="/contact">
           <ContactPage />
         </Route>

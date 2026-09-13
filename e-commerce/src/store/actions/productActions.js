@@ -8,6 +8,9 @@ export const SET_LIMIT = "SET_LIMIT";
 export const SET_OFFSET = "SET_OFFSET";
 export const SET_FILTER = "SET_FILTER";
 
+export const SET_PRODUCT_DETAIL = "SET_PRODUCT_DETAIL";
+export const SET_PRODUCT_DETAIL_FETCH_STATE = "SET_PRODUCT_DETAIL_FETCH_STATE";
+
 export const setCategories = (categories) => {
     return { type: SET_CATEGORIES, payload: categories };
 };
@@ -35,6 +38,14 @@ export const setOffset = (offset) => {
 export const setFilter = (filter) => {
     return { type: SET_FILTER, payload: filter };
 };
+export const setProductDetail = (productDetail) => {
+    return { type: SET_PRODUCT_DETAIL, payload: productDetail };
+}
+export const setProductDetailFetchState = (productDetailFetchState) => {
+    return { type: SET_PRODUCT_DETAIL_FETCH_STATE, payload: productDetailFetchState };
+};
+
+
 
 export const fetchCategories = () => (dispatch) => {
     API.get("/categories")
@@ -48,7 +59,6 @@ export const fetchProducts = (params) => (dispatch) => {
     dispatch(setFetchState("FETCHING"));
     API.get("/products", { params })
         .then((response) => {
-            console.log(response.data);
             dispatch(setProductList(response.data.products));
             dispatch(setTotal(response.data.total));
             dispatch(setFetchState("FETCHED"));
@@ -56,5 +66,18 @@ export const fetchProducts = (params) => (dispatch) => {
         .catch((error) => {
             console.log(error);
             dispatch(setFetchState("FAILED"));
+        })
+}
+export const fetchProduct = (productId) => (dispatch) => {
+    dispatch(setProductDetailFetchState("FETCHING"));
+    API.get(`/products/${productId}`)
+        .then((response) => {
+            console.log(response.data);
+            dispatch(setProductDetail(response.data));
+            dispatch(setProductDetailFetchState("FETCHED"));
+        })
+        .catch((error) => {
+            console.log(error);
+            dispatch(setProductDetailFetchState("FAILED"));
         })
 }

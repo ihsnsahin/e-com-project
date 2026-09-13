@@ -1,35 +1,63 @@
-import { Eye, Heart, ShoppingCart, Star } from "lucide-react";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaStarHalfStroke } from "react-icons/fa6";
 const COLOR_OPTIONS = [
     { value: "blue", bgClass: "bg-[#23A6F0]", ringClass: "peer-checked:ring-[#23A6F0]" },
     { value: "green", bgClass: "bg-[#23856D]", ringClass: "peer-checked:ring-[#23856D]" },
     { value: "orange", bgClass: "bg-[#E77C40]", ringClass: "peer-checked:ring-[#E77C40]" },
     { value: "black", bgClass: "bg-[#252B42]", ringClass: "peer-checked:ring-[#252B42]" },
 ];
-function ProductOverview() {
+function ProductOverview({ product }) {
     const [color, setColor] = useState("blue");
     function handleChange(event) {
         setColor(event.target.value);
     }
+    if (!product) return null;
+    const currentPrice = product.price ? Number(product.price).toFixed(2) : "0.00";
+    const descriptionText = product.description || "";
+
+    const rating = Number(product.rating || 0);
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 >= 0.5
+    const emptyStars = 5 - fullStars - (halfStars ? 1 : 0);
+    const stars = (stars) => Array.from({ length: stars }, (_, i) => i + 1);
+
     return (
         <div className="flex flex-col gap-4">
-            <h4 className="text-xl">Floating Phone</h4>
+            <h4 className="text-xl">{product.name}</h4>
             <div className="flex flex-row items-center gap-4">
                 <div className="flex flex-row items-center gap-1">
-                    <Star className="text-[#F3CD03] fill-[#F3CD03]" />
-                    <Star className="text-[#F3CD03] fill-[#F3CD03]" />
-                    <Star className="text-[#F3CD03] fill-[#F3CD03]" />
-                    <Star className="text-[#F3CD03] fill-[#F3CD03]" />
-                    <Star className="text-[#F3CD03]" />
+                    {stars(fullStars).map((star, index) => (
+                        <FaStar
+                            key={index}
+                            className="w-5 h-5 text-[#F3CD03]"
+                        />
+                    ))}
+                    {halfStars && (
+                        <FaStarHalfStroke
+                            className="w-5 h-5 text-[#F3CD03]"
+                        />
+                    )}
+                    {stars(emptyStars).map((star, index) => (
+                        <FaRegStar
+                            key={index}
+                            className="w-5 h-5 text-[#F3CD03]"
+                        />
+                    ))}
+
                 </div>
-                <h6 className="text-[#737373]">10 Reviews</h6>
+                <h6 className="text-[#737373]">{product.sell_count} Reviews</h6>
             </div>
-            <h3 className="text-2xl">$1,139.33</h3>
+            <h3 className="text-2xl">${currentPrice}</h3>
             <div className="flex gap-2">
                 <h6 className="text-[#737373]">Availability : </h6>
-                <h6 className="text-[#23A6F0]">In Stock</h6>
+                {product.stock > 0 ?
+                    <h6 className="text-[#23A6F0]">In Stock</h6>
+                    : <h6 className="text-[red]">Out of Stock</h6>}
+
             </div>
-            <p className="text-left text-[#737373] font-normal max-w-xs sm:max-w-md">Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie Excitation venial consequent sent nostrum met.</p>
+            <p className="text-left text-[#737373] font-normal max-w-xs sm:max-w-md">{descriptionText}</p>
             <hr className="border-[#E8E8E8] my-2" />
             <div className="flex gap-2">
                 {COLOR_OPTIONS.map((item) => (
