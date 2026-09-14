@@ -2,6 +2,9 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { FaStarHalfStroke } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { addToCart } from "../store/actions/shoppingCartActions";
 const COLOR_OPTIONS = [
     { value: "blue", bgClass: "bg-[#23A6F0]", ringClass: "peer-checked:ring-[#23A6F0]" },
     { value: "green", bgClass: "bg-[#23856D]", ringClass: "peer-checked:ring-[#23856D]" },
@@ -9,6 +12,7 @@ const COLOR_OPTIONS = [
     { value: "black", bgClass: "bg-[#252B42]", ringClass: "peer-checked:ring-[#252B42]" },
 ];
 function ProductOverview({ product }) {
+    const dispatch = useDispatch();
     const [color, setColor] = useState("blue");
     function handleChange(event) {
         setColor(event.target.value);
@@ -23,8 +27,15 @@ function ProductOverview({ product }) {
     const emptyStars = 5 - fullStars - (halfStars ? 1 : 0);
     const stars = (stars) => Array.from({ length: stars }, (_, i) => i + 1);
 
+
+
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+        toast.success("The product has been successfully added to your cart");
+    }
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col w-full gap-4">
             <h4 className="text-xl">{product.name}</h4>
             <div className="flex flex-row items-center gap-4">
                 <div className="flex flex-row items-center gap-1">
@@ -75,12 +86,14 @@ function ProductOverview({ product }) {
                 ))}
             </div>
             <div className="flex items-center gap-2">
-                <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer px-6 py-3 rounded-sm w-full sm:w-auto">Select Options</button>
+                <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer px-6 py-3 rounded-sm w-full sm:w-auto"
+                    onClick={() => handleAddToCart(product)}
+                >Select Options</button>
                 <div className="border border-[#E8E8E8] rounded-full p-2 transition-colors duration-300 hover:bg-gray-100 cursor-pointer ">
                     <Heart className="w-5 h-5" />
                 </div>
                 <div className="border border-[#E8E8E8] rounded-full p-2 transition-colors duration-300 hover:bg-gray-100 cursor-pointer">
-                    <ShoppingCart className="w-5 h-5" />
+                    <ShoppingCart className="w-5 h-5" onClick={() => handleAddToCart(product)} />
                 </div>  <div className="border border-[#E8E8E8] rounded-full  p-2 transition-colors duration-300 hover:bg-gray-100 cursor-pointer">
                     <Eye className="w-5 h-5" />
                 </div>

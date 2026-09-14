@@ -1,9 +1,10 @@
-import { ChevronDown, ChevronUp, Heart, LogOut, Search, ShoppingCart, User, UserPlus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Heart, Search, User, UserPlus, X } from "lucide-react";
 import { useState } from "react";
 import Gravatar from "react-gravatar";
 import { BiMenuAltRight } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CartDropdown from "../components/CartDropdown";
 
 function HeaderMain() {
     const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,6 +12,8 @@ function HeaderMain() {
 
     const user = useSelector((state) => state.client.user);
     const categories = useSelector((state) => state.product.categories);
+
+
 
     const femaleCategories = categories.filter((cat) => cat.gender === "k");
     const maleCategories = categories.filter((cat) => cat.gender === "e");
@@ -22,6 +25,7 @@ function HeaderMain() {
         setMenuOpen(false);
         setShopOpen(false);
     };
+
     return (
         <div className="w-full px-9 py-6">
             <div className="flex flex-col nav:flex-row justify-center nav:justify-between items-center gap-17 nav:gap-0">
@@ -135,10 +139,7 @@ function HeaderMain() {
 
                     <Search className="w-7 h-7 nav:w-4 nav:h-4 cursor-pointer transition-transform duration-200 hover:scale-110" />
 
-                    <div className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-110">
-                        <ShoppingCart className="w-7 h-7 nav:w-4 nav:h-4" />
-                        <span className="text-xs font-normal">1</span>
-                    </div>
+                    <CartDropdown />
 
                     <div className="flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110">
                         <Heart className="w-7 h-7 nav:w-4 nav:h-4" />
