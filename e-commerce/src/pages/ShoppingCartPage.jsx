@@ -68,8 +68,8 @@ function ShoppingCartPage() {
             </section>
             {cart.length > 0
                 ? (<section className="bg-[#FAFAFA] py-8">
-                    <div className="layout-flex items-start md:flex-row gap-6">
-                        <div className="border border-[#D6EEF9] rounded-xl flex-1 bg-white overflow-hidden">
+                    <div className="layout-flex items-start md:flex-row w-full gap-6">
+                        <div className="border border-[#D6EEF9] rounded-xl flex-1 bg-white overflow-hidden w-full">
                             <div className="border-b border-[#D6EEF9] bg-[#F5FBFE]">
                                 <div className="flex flex-row items-center py-4 px-3">
                                     <div className="flex flex-row flex-1 items-center gap-2">
