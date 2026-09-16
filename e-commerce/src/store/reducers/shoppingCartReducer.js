@@ -1,4 +1,4 @@
-import { ADD_TO_CART, SET_ADDRESS, SET_CART, SET_PAYMENT } from "../actions/shoppingCartActions";
+import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, SET_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
 
 const initialState = {
     cart: [],
@@ -42,6 +42,59 @@ const shoppingCartReducer = (state = initialState, action) => {
                 ]
             };
         }
+        case REMOVE_FROM_CART: {
+            return {
+                ...state,
+                cart: state.cart.filter((cartItem) =>
+                    cartItem.product.id !== action.payload)
+            };
+        }
+        case INCREASE_COUNT: {
+            return {
+                ...state,
+                cart: state.cart.map((cartItem) =>
+                    cartItem.product.id === action.payload
+                        ? { ...cartItem, count: cartItem.count + 1 }
+                        : cartItem
+                )
+            };
+        }
+        case DECREASE_COUNT: {
+            return {
+                ...state,
+                cart: state.cart.map((cartItem) =>
+                    cartItem.product.id === action.payload
+                        ? { ...cartItem, count: cartItem.count > 1 ? cartItem.count - 1 : cartItem.count }
+                        : cartItem
+                )
+            };
+        }
+        case TOGGLE_CART_ITEM: {
+            return {
+                ...state,
+                cart: state.cart.map((cartItem) =>
+                    cartItem.product.id === action.payload
+                        ? { ...cartItem, checked: !cartItem.checked }
+                        : cartItem
+                )
+            };
+        }
+        case TOGGLE_ALL_CART_ITEMS: {
+            //Hepsi seçili mi? Every koşulu sağlayıp sağlamadığını kontrol eder
+
+            const allChecked = state.cart.every(
+                (cartItem) => cartItem.checked
+            );
+            //Hepsi seçili ise kaldır, değilse seç.
+            return {
+                ...state,
+                cart: state.cart.map((cartItem) => ({
+                    ...cartItem,
+                    checked: !allChecked
+                }))
+            };
+        }
+
         default:
             return state;
     }

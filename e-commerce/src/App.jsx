@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { verifyUser } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
+import ShoppingCartPage from './pages/ShoppingCartPage';
 
 
 function App() {
@@ -35,9 +36,11 @@ function App() {
         <Route path="/shop/:gender/:categoryName/:categoryId" exact>
           <ShopPage />
         </Route>
-
         <Route path="/contact">
           <ContactPage />
+        </Route>
+        <Route path="/cart">
+          <ShoppingCartPage />
         </Route>
         <Route path="/team">
           <TeamPage />

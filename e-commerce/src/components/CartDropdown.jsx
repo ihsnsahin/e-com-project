@@ -1,13 +1,15 @@
 import { ShoppingCart } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function CartDropdown() {
+    const history = useHistory();
     const cart = useSelector((state) => state.shoppingCart.cart);
     const totalCartCount = cart.reduce((total, cartItem) => total + cartItem.count, 0);
 
 
     return (<div className="relative group">
-        <div className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-110">
+        <div onClick={() => history.push("/cart")} className="flex items-center gap-1.5 cursor-pointer transition-transform duration-200 hover:scale-110">
             <ShoppingCart className="w-7 h-7 nav:w-4 nav:h-4" />
             <span className="text-xs font-normal">{totalCartCount === 0 ? "" : totalCartCount}</span>
         </div>
@@ -34,7 +36,9 @@ function CartDropdown() {
                         }
                         )}
                     </div>
-                    <button className="text-sm w-full bg-[#23A6F0] text-white py-2 rounded-md transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer">View Card</button>
+                    <button
+                        onClick={() => history.push("/cart")}
+                        className="text-sm w-full bg-[#23A6F0] text-white py-2 rounded-md transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer">Checkout</button>
                 </>)
             }
         </div>
