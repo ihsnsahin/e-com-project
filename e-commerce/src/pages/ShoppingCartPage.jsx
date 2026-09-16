@@ -10,6 +10,17 @@ function ShoppingCartPage() {
     const cart = useSelector((state) => state.shoppingCart.cart);
     const totalProductCount = cart.length;
     const selectedProductCount = (cart.filter((cartItem) => cartItem.checked)).length;
+    const total = cart.reduce(
+        (total, cartItem) =>
+            cartItem.checked
+                ? total + (cartItem.product.price * cartItem.count)
+                : total,
+        0
+    );
+    const freeShippingPrice = 300;
+    const shippingIsFree = total >= freeShippingPrice;
+    const shipping = total === 0 ? 0 : 5;
+    const grandTotal = shippingIsFree ? total : total + shipping;
 
     const handleRemoveFromCart = (productId) => {
         dispatch(removeFromCart(productId));
@@ -48,7 +59,7 @@ function ShoppingCartPage() {
                 </div>
             </section>
             <section className="bg-[#FAFAFA] py-8">
-                <div className="layout-flex flex-col gap-6">
+                <div className="layout-flex gap-6">
                     <div className="layout-flex items-center justify-center gap-2.5">
                         <h2 className="text-4xl text-center max-w-2xs sm:max-w-sm">Shopping Cart</h2>
                         <p className="text-[#737373] text-center font-normal max-w-2xs sm:max-w-md md:max-w-lg">Manage your cart items and proceed to checkout</p>
@@ -57,8 +68,8 @@ function ShoppingCartPage() {
             </section>
             {cart.length > 0
                 ? (<section className="bg-[#FAFAFA] py-8">
-                    <div className="layout-flex flex-col gap-6">
-                        <div className="border border-[#D6EEF9] rounded-xl bg-white overflow-hidden">
+                    <div className="layout-flex items-start md:flex-row gap-6">
+                        <div className="border border-[#D6EEF9] rounded-xl flex-1 bg-white overflow-hidden">
                             <div className="border-b border-[#D6EEF9] bg-[#F5FBFE]">
                                 <div className="flex flex-row items-center py-4 px-3">
                                     <div className="flex flex-row flex-1 items-center gap-2">
@@ -135,6 +146,35 @@ function ShoppingCartPage() {
                                 </div>
                             </div>
                         </div>
+                        <div className="flex flex-col gap-4 w-full md:max-w-[30%] md:sticky md:top-40 md:self-start">
+                            <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
+                            >Create Order</button>
+                            <div className="flex flex-col gap-2 py-4 px-3 border border-[#D6EEF9] rounded-xl bg-white overflow-hidden">
+                                <h3 className="text-base mb-2">Order Summary</h3>
+                                <div className="flex items-center justify-between w-full gap-2">
+                                    <h4 className="font-normal">Products Total</h4>
+                                    <h4>${total.toFixed(2)}</h4>
+                                </div>
+                                <div className="flex items-center justify-between w-full gap-2">
+                                    <h4 className="font-normal">Shipping</h4>
+                                    <h4>${shipping.toFixed(2)}</h4>
+                                </div>
+                                {shippingIsFree &&
+                                    <div className="flex items-center justify-between w-full gap-2">
+                                        <h4 className="font-normal min-w-0 line-clamp-2">Free shipping on orders over ${freeShippingPrice}</h4>
+                                        <h4 className="text-[red]">-${shipping.toFixed(2)}</h4>
+                                    </div>}
+                                <hr className="text-[#D6EEF9]" />
+                                <div className="flex items-center justify-between w-full">
+                                    <h3 className="text-base">Grand Total</h3>
+                                    <h3 className="text-base text-[#23A6F0]">${grandTotal.toFixed(2)}</h3>
+                                </div>
+
+                            </div>
+                            <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
+                            >Create Order</button>
+                        </div>
+
                     </div>
                 </section>)
                 :
