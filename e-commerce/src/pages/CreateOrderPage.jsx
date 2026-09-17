@@ -1,0 +1,106 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Address from "../components/Address";
+import Payment from "../components/Payment";
+
+function CreateOrderPage() {
+    const [currentStep, setCurrentStep] = useState(1);
+    const selectedAddress = useSelector(
+        (state) => state.shoppingCart.address
+    );
+    const selectedBillingAddress = useSelector(
+        (state) => state.shoppingCart.billingAddress
+    );
+    const cart = useSelector((state) => state.shoppingCart.cart);
+    const total = cart.reduce(
+        (total, cartItem) =>
+            cartItem.checked
+                ? total + (cartItem.product.price * cartItem.count)
+                : total,
+        0
+    );
+    const freeShippingPrice = 300;
+    const shippingIsFree = total >= freeShippingPrice;
+    const shipping = total === 0 ? 0 : 5;
+    const grandTotal = shippingIsFree ? total : total + shipping;
+
+
+
+    const handleContinue = () => {
+        if (currentStep === 1) {
+            setCurrentStep(2);
+        }
+    };
+    const canContinue = selectedAddress?.id && selectedBillingAddress?.id;
+    return (
+        <section className="bg-[#FAFAFA] py-8" >
+            <div className="layout-flex items-start md:flex-row w-full gap-6">
+                <div className="flex flex-col gap-2 flex-1 overflow-hidden w-full ">
+                    <div className="flex">
+                        <div
+                            onClick={() => setCurrentStep(1)}
+                            className={`flex flex-col gap-2 border border-[#D6EEF9] border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 1 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
+                            <h2 className={`text-lg font-medium ${currentStep === 1 && "text-[#23A6F0]"}`}>Adres Bilgileri</h2>
+                            <p className="font-normal">
+                                {selectedAddress
+                                    ? `${selectedAddress.title} - ${selectedAddress.city} / ${selectedAddress.district}`
+                                    : "Adres seçin"}
+                            </p>
+                        </div>
+                        <div
+                            onClick={() => canContinue && setCurrentStep(2)}
+                            className={`flex flex-col gap-2 border border-[#D6EEF9]  border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 2 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
+                            <h2 className={`text-lg font-medium ${currentStep === 2 && "text-[#23A6F0]"}`}>Ödeme Seçenekleri</h2>
+                            <p className="font-normal">Banka/Kredi Kartı ile güvenle ödeyin</p>
+                        </div>
+                    </div>
+                    {currentStep === 1 && <Address />}
+                    {currentStep === 2 && <Payment />}
+                </div>
+                <div className="flex flex-col gap-4 w-full md:max-w-[25%] md:sticky md:top-40 md:self-start">
+                    <button
+                        onClick={handleContinue}
+                        disabled={!canContinue}
+                        className={`text-white py-3 rounded-sm w-full transition-colors duration-300 ${canContinue
+                            ? "bg-[#23A6F0] hover:bg-[#1d91d1] cursor-pointer"
+                            : "bg-gray-300 cursor-not-allowed"
+                            }`}
+                    >
+                        Save and Continue
+                    </button>
+                    <div className="flex flex-col gap-2 py-4 px-3 border border-[#D6EEF9] rounded-xl bg-white overflow-hidden">
+                        <h3 className="text-base mb-2">Order Summary</h3>
+                        <div className="flex items-center justify-between w-full gap-2">
+                            <h4 className="font-normal">Products Total</h4>
+                            <h4>${total.toFixed(2)}</h4>
+                        </div>
+                        <div className="flex items-center justify-between w-full gap-2">
+                            <h4 className="font-normal">Shipping</h4>
+                            <h4>${shipping.toFixed(2)}</h4>
+                        </div>
+                        {shippingIsFree &&
+                            <div className="flex items-center justify-between w-full gap-2">
+                                <h4 className="font-normal min-w-0 line-clamp-2">Free shipping on orders over ${freeShippingPrice}</h4>
+                                <h4 className="text-[red]">-${shipping.toFixed(2)}</h4>
+                            </div>}
+                        <hr className="text-[#D6EEF9]" />
+                        <div className="flex items-center justify-between w-full">
+                            <h3 className="text-base">Grand Total</h3>
+                            <h3 className="text-base text-[#23A6F0]">${grandTotal.toFixed(2)}</h3>
+                        </div>
+                    </div>
+                    <button
+                        onClick={handleContinue}
+                        disabled={!canContinue}
+                        className={`text-white py-3 rounded-sm w-full transition-colors duration-300 ${canContinue
+                            ? "bg-[#23A6F0] hover:bg-[#1d91d1] cursor-pointer"
+                            : "bg-gray-300 cursor-not-allowed"
+                            }`}
+                    >
+                        Save and Continue
+                    </button>
+                </div>
+            </div>
+        </section >)
+}
+export default CreateOrderPage;

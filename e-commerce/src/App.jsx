@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { verifyUser } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
 import ShoppingCartPage from './pages/ShoppingCartPage';
+import CreateOrderPage from './pages/CreateOrderPage';
 
 
 function App() {
@@ -53,6 +54,9 @@ function App() {
         </Route>
         <Route path="/login">
           <LoginPage />
+        </Route>
+        <Route path="/create-order">
+          <CreateOrderPage />
         </Route>
       </Switch>
     </PageContent>

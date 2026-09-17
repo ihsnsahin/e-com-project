@@ -1,9 +1,10 @@
-import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, SET_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
+import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, SET_ADDRESS, SET_BILLING_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
 
 const initialState = {
     cart: [],
     payment: {},
-    address: {}
+    address: {},
+    billingAddress: {}
 }
 const shoppingCartReducer = (state = initialState, action) => {
 
@@ -14,7 +15,8 @@ const shoppingCartReducer = (state = initialState, action) => {
             return { ...state, payment: action.payload };
         case SET_ADDRESS:
             return { ...state, address: action.payload };
-
+        case SET_BILLING_ADDRESS:
+            return { ...state, billingAddress: action.payload };
         case ADD_TO_CART: {
             const hasProduct = state.cart.find(
                 (cartItem) => cartItem.product.id === action.payload.id

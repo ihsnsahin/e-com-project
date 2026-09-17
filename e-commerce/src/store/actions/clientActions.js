@@ -1,9 +1,12 @@
 import { toast } from "react-toastify";
-import useLocalStorage from "../../hooks/useLocalStorage";
+
 import { API } from "../../services/api";
 
 export const SET_USER = "SET_USER";
 export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
+export const ADD_ADDRESS = "ADD_ADDRESS";
+export const UPDATE_ADDRESS = "UPDATE_ADDRESS"
+export const DELETE_ADDRESS = "DELETE_ADDRESS";
 export const SET_CREDIT_CARDS = "SET_CREDIT_CARDS";
 export const SET_ROLES = "SET_ROLES";
 export const SET_THEME = "SET_THEME";
@@ -15,7 +18,15 @@ export const setUser = (user) => {
 export const setAddressList = (addressList) => {
     return { type: SET_ADDRESS_LIST, payload: addressList };
 };
-
+export const addAddress = (address) => {
+    return { type: ADD_ADDRESS, payload: address };
+};
+export const deleteAddress = (addressId) => {
+    return { type: DELETE_ADDRESS, payload: addressId };
+};
+export const updateAddress = (address) => {
+    return { type: UPDATE_ADDRESS, payload: address };
+};
 export const setCreditCards = (creditCards) => {
     return { type: SET_CREDIT_CARDS, payload: creditCards };
 };
@@ -88,3 +99,45 @@ export const verifyUser = () => (dispatch) => {
             localStorage.removeItem("token");
         });
 }
+
+export const fetchAddressList = () => (dispatch) => {
+    API.get("/user/address")
+        .then((response) => {
+            dispatch(setAddressList(response.data));
+        })
+        .catch((error) => console.log(error));
+};
+
+export const addToAddressList = (address) => (dispatch) => {
+    return API.post("/user/address", address)
+        .then((response) => {
+            dispatch(addAddress(response.data[0]));
+            return response.data[0];
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+export const deleteFromAddressList = (addressId) => (dispatch) => {
+    return API.delete(`/user/address/${addressId}`)
+        .then(() => {
+            dispatch(deleteAddress(addressId));
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+export const updateAddressList = (address) => (dispatch) => {
+    return API.put("/user/address", address)
+        .then((response) => {
+            dispatch(updateAddress(response.data[0]));
+            return response.data[0];
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+

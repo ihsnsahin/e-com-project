@@ -1,6 +1,7 @@
 export const SET_CART = "SET_CART";
 export const SET_PAYMENT = "SET_PAYMENT";
 export const SET_ADDRESS = "SET_ADDRESS";
+export const SET_BILLING_ADDRESS = "SET_BILLING_ADDRESS";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const INCREASE_COUNT = "INCREASE_COUNT";
@@ -18,6 +19,9 @@ export const setPayment = (payment) => {
 export const setAddress = (address) => {
     return { type: SET_ADDRESS, payload: address }
 };
+export const setBillingAddress = (address) => {
+    return { type: SET_BILLING_ADDRESS, payload: address }
+}
 
 export const addToCart = (product) => {
     return { type: ADD_TO_CART, payload: product }
@@ -37,5 +41,7 @@ export const toggleCartItem = (productId) => {
 export const toggleAllCartItems = () => {
     return { type: TOGGLE_ALL_CART_ITEMS }
 }
+
+
 
 

@@ -171,7 +171,9 @@ function ShoppingCartPage() {
                                 </div>
 
                             </div>
-                            <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
+                            <button
+                                onClick={() => history.push("/create-order")}
+                                className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
                             >Create Order</button>
                         </div>
 
