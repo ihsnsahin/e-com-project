@@ -4,6 +4,7 @@ import AddressFormModal from "./AdressFormModal";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAddressList } from "../store/actions/clientActions";
 import { setAddress, setBillingAddress } from "../store/actions/shoppingCartActions";
+import { MapPin } from "lucide-react";
 
 function Address() {
     const [sameAddress, setSameAddress] = useState(true);
@@ -47,7 +48,11 @@ function Address() {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2 border border-[#D6EEF9] w-full bg-white rounded-sm p-4">
                     <div className="flex flex-row items-center justify-between w-full">
-                        <h3 className="text-lg">Delivery Address</h3>
+                        <div className="flex gap-2 items-center">
+                            <MapPin className="w-6 h-6" />
+                            <h3 className="text-lg">Delivery Address</h3>
+                        </div>
+
 
                         <div className="flex gap-2 items-center">
                             <input
@@ -96,7 +101,8 @@ function Address() {
 
                 {!sameAddress && (
                     <div className="flex flex-col gap-2 border border-[#D6EEF9] w-full bg-white rounded-sm p-4">
-                        <div className="flex flex-col items-start w-full gap-2">
+                        <div className="flex gap-2 items-center">
+                            <MapPin className="w-6 h-6" />
                             <h3 className="text-lg">Billing Address</h3>
                         </div>
                         <div className="flex flex-wrap gap-2">

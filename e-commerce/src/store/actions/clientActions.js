@@ -8,6 +8,7 @@ export const ADD_ADDRESS = "ADD_ADDRESS";
 export const UPDATE_ADDRESS = "UPDATE_ADDRESS"
 export const DELETE_ADDRESS = "DELETE_ADDRESS";
 export const SET_CREDIT_CARDS = "SET_CREDIT_CARDS";
+export const ADD_CREDIT_CARD = "ADD_CREDIT_CARD";
 export const SET_ROLES = "SET_ROLES";
 export const SET_THEME = "SET_THEME";
 export const SET_LANGUAGE = "SET_LANGUAGE";
@@ -29,6 +30,9 @@ export const updateAddress = (address) => {
 };
 export const setCreditCards = (creditCards) => {
     return { type: SET_CREDIT_CARDS, payload: creditCards };
+};
+export const addCreditCard = (creditCard) => {
+    return { type: ADD_CREDIT_CARD, payload: creditCard };
 };
 
 export const setRoles = (roles) => {
@@ -133,6 +137,26 @@ export const updateAddressList = (address) => (dispatch) => {
     return API.put("/user/address", address)
         .then((response) => {
             dispatch(updateAddress(response.data[0]));
+            return response.data[0];
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+
+export const fetchCreditCards = () => (dispatch) => {
+    API.get("/user/card")
+        .then((response) => {
+            dispatch(setCreditCards(response.data));
+        })
+        .catch((error) => console.log(error));
+};
+export const addToCreditCards = (creditCard) => (dispatch) => {
+    return API.post("/user/card", creditCard)
+        .then((response) => {
+            dispatch(addCreditCard(response.data[0]));
+            console.log(response.data[0]);
             return response.data[0];
         })
         .catch((error) => {

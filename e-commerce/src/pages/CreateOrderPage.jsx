@@ -39,16 +39,15 @@ function CreateOrderPage() {
                     <div className="flex">
                         <div
                             onClick={() => setCurrentStep(1)}
-                            className={`flex flex-col gap-2 border border-[#D6EEF9] border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 1 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
+                            className={`flex flex-col gap-2 border border-[#D6EEF9] border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 1 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3 min-w-0"} `}>
                             <h2 className={`text-lg font-medium ${currentStep === 1 && "text-[#23A6F0]"}`}>Adres Bilgileri</h2>
-                            <p className="font-normal">
+                            <p className="font-normal line-clamp-3">
                                 {selectedAddress
-                                    ? `${selectedAddress.title} - ${selectedAddress.city} / ${selectedAddress.district}`
+                                    ? `${selectedAddress.title} - ${selectedAddress.address}, ${selectedAddress.neighborhood}, ${selectedAddress.district} / ${selectedAddress.city}`
                                     : "Adres seçin"}
                             </p>
                         </div>
                         <div
-                            onClick={() => canContinue && setCurrentStep(2)}
                             className={`flex flex-col gap-2 border border-[#D6EEF9]  border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 2 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
                             <h2 className={`text-lg font-medium ${currentStep === 2 && "text-[#23A6F0]"}`}>Ödeme Seçenekleri</h2>
                             <p className="font-normal">Banka/Kredi Kartı ile güvenle ödeyin</p>
@@ -57,7 +56,7 @@ function CreateOrderPage() {
                     {currentStep === 1 && <Address />}
                     {currentStep === 2 && <Payment />}
                 </div>
-                <div className="flex flex-col gap-4 w-full md:max-w-[25%] md:sticky md:top-40 md:self-start">
+                <div className="flex flex-col gap-4 w-full md:max-w-[30%] md:sticky md:top-40 md:self-start">
                     <button
                         onClick={handleContinue}
                         disabled={!canContinue}
@@ -66,7 +65,7 @@ function CreateOrderPage() {
                             : "bg-gray-300 cursor-not-allowed"
                             }`}
                     >
-                        Save and Continue
+                        {currentStep === 2 ? "Make a Payment" : "Save and Continue"}
                     </button>
                     <div className="flex flex-col gap-2 py-4 px-3 border border-[#D6EEF9] rounded-xl bg-white overflow-hidden">
                         <h3 className="text-base mb-2">Order Summary</h3>
@@ -97,7 +96,7 @@ function CreateOrderPage() {
                             : "bg-gray-300 cursor-not-allowed"
                             }`}
                     >
-                        Save and Continue
+                        {currentStep === 2 ? "Make a Payment" : "Save and Continue"}
                     </button>
                 </div>
             </div>
