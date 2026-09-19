@@ -1,36 +1,58 @@
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addToCreditCards } from "../store/actions/clientActions";
+import {
+    addToCreditCards,
+    updateCreditCards
+} from "../store/actions/clientActions";
 
-function CardFormModal({ onClose }) {
+function CardFormModal({ card, onClose }) {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors, isDirty, isValid }
     } = useForm({
-        mode: "onChange"
+        mode: "onChange",
+        defaultValues: {
+            card_no: card?.card_no || "",
+            name_on_card: card?.name_on_card || "",
+            expire_month: card?.expire_month || "",
+            expire_year: card?.expire_year || ""
+        }
     });
+
     const dispatch = useDispatch();
+
     const addNewCard = async (data) => {
         try {
             await dispatch(addToCreditCards(data));
             onClose();
         } catch (error) {
-            console.error("Failed to add creditCard:", error);
+            console.error("Failed to add card:", error);
         }
     };
-    const sumbitFn = (data) => {
-        addNewCard(data)
-    }
+
+    const updateCard = async (data) => {
+        try {
+            await dispatch(
+                updateCreditCards({
+                    ...data,
+                    id: card.id
+                })
+            );
+            onClose();
+        } catch (error) {
+            console.error("Failed to update card:", error);
+        }
+    };
+
     return (
         <div className="fixed z-50 inset-0 flex items-center justify-center bg-black/50">
             <div className="flex flex-col gap-6 w-full max-w-xl rounded-xl bg-white p-4 mx-2">
 
                 <div className="flex items-center justify-between">
                     <h3 className="text-xl">
-                        Add New Card
+                        {card ? "Edit Card" : "Add New Card"}
                     </h3>
 
                     <button
@@ -43,24 +65,28 @@ function CardFormModal({ onClose }) {
                 </div>
 
                 <form
+                    onSubmit={handleSubmit(
+                        card ? updateCard : addNewCard
+                    )}
                     className="flex flex-col w-full items-start justify-center gap-5"
-                    onSubmit={handleSubmit(sumbitFn)}
                 >
                     {/* Card Number */}
                     <div className="flex flex-col w-full gap-2">
                         <label htmlFor="card_no">
                             Card Number
                         </label>
+
                         <input
                             id="card_no"
                             type="text"
-                            {...register("card_no", {
-                                required: "Name is required"
-                            })}
                             placeholder="1234 1234 1234 1234"
                             maxLength={16}
+                            {...register("card_no", {
+                                required: "Card number is required"
+                            })}
                             className="text-[#737373] font-medium px-4 py-3 rounded-sm border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full"
                         />
+
                         {errors.card_no && (
                             <span className="text-sm text-red-500">
                                 {errors.card_no.message}
@@ -69,9 +95,11 @@ function CardFormModal({ onClose }) {
                     </div>
 
                     {/* Name on Card */}
-
                     <div className="flex flex-col w-full gap-2">
-                        <label htmlFor="name_on_card" className="font-medium">
+                        <label
+                            htmlFor="name_on_card"
+                            className="font-medium"
+                        >
                             Name on Card
                         </label>
 
@@ -84,6 +112,7 @@ function CardFormModal({ onClose }) {
                             })}
                             className="text-[#737373] font-medium px-4 py-3 rounded-sm border border-[#DDDDDD] focus:outline-none focus:border-[#1d91d1] transition-colors duration-200 w-full"
                         />
+
                         {errors.name_on_card && (
                             <span className="text-sm text-red-500">
                                 {errors.name_on_card.message}
@@ -93,8 +122,16 @@ function CardFormModal({ onClose }) {
 
                     {/* Month & Year */}
                     <div className="flex flex-wrap gap-2 w-full">
+
+                        {/* Month */}
                         <div className="flex flex-col w-full md:w-[calc(50%-4px)] gap-2">
-                            <label htmlFor="expire_month" className="font-medium">Month</label>
+                            <label
+                                htmlFor="expire_month"
+                                className="font-medium"
+                            >
+                                Month
+                            </label>
+
                             <select
                                 id="expire_month"
                                 {...register("expire_month", {
@@ -103,12 +140,20 @@ function CardFormModal({ onClose }) {
                                 className="font-normal border border-[#D6EEF9] rounded-sm p-3 focus:outline-none focus:border-[#1d91d1]"
                             >
                                 <option value="">Month</option>
-                                {Array.from({ length: 12 }, (_, index) => (
-                                    <option key={index + 1} value={index + 1}>
-                                        {String(index + 1).padStart(2, "0")}
-                                    </option>
-                                ))}
+
+                                {Array.from(
+                                    { length: 12 },
+                                    (_, index) => (
+                                        <option
+                                            key={index + 1}
+                                            value={index + 1}
+                                        >
+                                            {String(index + 1).padStart(2, "0")}
+                                        </option>
+                                    )
+                                )}
                             </select>
+
                             {errors.expire_month && (
                                 <span className="text-sm text-red-500">
                                     {errors.expire_month.message}
@@ -116,8 +161,15 @@ function CardFormModal({ onClose }) {
                             )}
                         </div>
 
+                        {/* Year */}
                         <div className="flex flex-col w-full md:w-[calc(50%-4px)] gap-2">
-                            <label htmlFor="expire_year" className="font-medium">Year</label>
+                            <label
+                                htmlFor="expire_year"
+                                className="font-medium"
+                            >
+                                Year
+                            </label>
+
                             <select
                                 id="expire_year"
                                 {...register("expire_year", {
@@ -126,16 +178,25 @@ function CardFormModal({ onClose }) {
                                 className="font-normal border border-[#D6EEF9] rounded-sm p-3 focus:outline-none focus:border-[#1d91d1]"
                             >
                                 <option value="">Year</option>
-                                {Array.from({ length: 10 }, (_, index) => {
-                                    const year = new Date().getFullYear() + index;
 
-                                    return (
-                                        <option key={year} value={year}>
-                                            {year}
-                                        </option>
-                                    );
-                                })}
+                                {Array.from(
+                                    { length: 10 },
+                                    (_, index) => {
+                                        const year =
+                                            new Date().getFullYear() + index;
+
+                                        return (
+                                            <option
+                                                key={year}
+                                                value={year}
+                                            >
+                                                {year}
+                                            </option>
+                                        );
+                                    }
+                                )}
                             </select>
+
                             {errors.expire_year && (
                                 <span className="text-sm text-red-500">
                                     {errors.expire_year.message}
@@ -162,12 +223,13 @@ function CardFormModal({ onClose }) {
                                 : "text-white bg-[#23A6F0] hover:bg-[#1d91d1] cursor-pointer"
                                 }`}
                         >
-                            Save
+                            {card ? "Update" : "Save"}
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
+
 export default CardFormModal;

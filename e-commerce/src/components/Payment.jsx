@@ -1,16 +1,21 @@
 import { CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCreditCards } from "../store/actions/clientActions";
 import CardFormModal from "./CardFormModal";
+import Card from "./Card";
+import { setPayment } from "../store/actions/shoppingCartActions";
 
 function Payment() {
     const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+    const [editingCard, setEditingCard] = useState(null);
+    const selectedCard = useSelector((state) => state.shoppingCart.payment);
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchCreditCards());
     }, [dispatch]);
+    const creditCards = useSelector(state => state.client.creditCards)
     return (
         <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2 border border-[#D6EEF9] w-full bg-white rounded-sm p-4">
@@ -27,11 +32,34 @@ function Payment() {
                         <h3>Add Card</h3>
                     </button>
                 </div>
+                <div className="flex flex-wrap gap-2">
+                    {
+                        creditCards.map((card) =>
+                            <Card
+                                key={card.id}
+                                card={card}
+                                selected={selectedCard?.id === card.id}
+                                onEdit={() => {
+                                    setEditingCard(card);
+                                    setIsCardModalOpen(true);
+                                }
+                                }
+                                onSelect={() => {
+                                    dispatch(setPayment(card));
+                                }}
+                            />
+                        )
+                    }
+
+
+                </div>
             </div>
             {isCardModalOpen && (
                 <CardFormModal
+                    card={editingCard}
                     onClose={() => {
                         setIsCardModalOpen(false);
+                        setEditingCard(null);
                     }}
                 />
             )}

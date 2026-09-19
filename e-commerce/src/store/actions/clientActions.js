@@ -5,10 +5,12 @@ import { API } from "../../services/api";
 export const SET_USER = "SET_USER";
 export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
 export const ADD_ADDRESS = "ADD_ADDRESS";
-export const UPDATE_ADDRESS = "UPDATE_ADDRESS"
+export const UPDATE_ADDRESS = "UPDATE_ADDRESS";
 export const DELETE_ADDRESS = "DELETE_ADDRESS";
 export const SET_CREDIT_CARDS = "SET_CREDIT_CARDS";
 export const ADD_CREDIT_CARD = "ADD_CREDIT_CARD";
+export const UPDATE_CREDIT_CARD = "UPDATE_CREDIT_CARD";
+export const DELETE_CREDIT_CARD = "DELETE_CREDIT_CARD";
 export const SET_ROLES = "SET_ROLES";
 export const SET_THEME = "SET_THEME";
 export const SET_LANGUAGE = "SET_LANGUAGE";
@@ -34,7 +36,12 @@ export const setCreditCards = (creditCards) => {
 export const addCreditCard = (creditCard) => {
     return { type: ADD_CREDIT_CARD, payload: creditCard };
 };
-
+export const updateCreditCard = (creditCard) => {
+    return { type: UPDATE_CREDIT_CARD, payload: creditCard };
+};
+export const deleteCreditCard = (creditCardId) => {
+    return { type: DELETE_CREDIT_CARD, payload: creditCardId };
+};
 export const setRoles = (roles) => {
     return { type: SET_ROLES, payload: roles };
 };
@@ -84,6 +91,11 @@ export const logUser = (data) => (dispatch) => {
             }
         )
 }
+export const logout = () => (dispatch) => {
+    delete API.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    dispatch(setUser({}));
+};
 export const verifyUser = () => (dispatch) => {
     const token = localStorage.getItem("token");
 
@@ -156,7 +168,27 @@ export const addToCreditCards = (creditCard) => (dispatch) => {
     return API.post("/user/card", creditCard)
         .then((response) => {
             dispatch(addCreditCard(response.data[0]));
-            console.log(response.data[0]);
+            return response.data[0];
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+export const deleteFromCreditCards = (creditCardId) => (dispatch) => {
+    return API.delete(`/user/card/${creditCardId}`)
+        .then(() => {
+            dispatch(deleteCreditCard(creditCardId));
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
+export const updateCreditCards = (creditCard) => (dispatch) => {
+    return API.put("/user/card", creditCard)
+        .then((response) => {
+            dispatch(updateCreditCard(response.data[0]));
             return response.data[0];
         })
         .catch((error) => {

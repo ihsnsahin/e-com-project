@@ -8,9 +8,38 @@ function CreateOrderPage() {
     const selectedAddress = useSelector(
         (state) => state.shoppingCart.address
     );
+
     const selectedBillingAddress = useSelector(
         (state) => state.shoppingCart.billingAddress
     );
+
+    const selectedCard = useSelector((state) => state.shoppingCart.payment);
+    const getCardType = (cardNo) => {
+        if (cardNo.startsWith("4")) {
+            return "Visa";
+        }
+
+        if (
+            cardNo.startsWith("51") ||
+            cardNo.startsWith("52") ||
+            cardNo.startsWith("53") ||
+            cardNo.startsWith("54") ||
+            cardNo.startsWith("55")
+        ) {
+            return "Mastercard";
+        }
+        if (
+            cardNo.startsWith("34") ||
+            cardNo.startsWith("37")
+        ) {
+            return "American Express";
+        }
+        if (cardNo.startsWith("9792")) {
+            return "TROY";
+        }
+
+        return "Unknown";
+    };
     const cart = useSelector((state) => state.shoppingCart.cart);
     const total = cart.reduce(
         (total, cartItem) =>
@@ -31,6 +60,8 @@ function CreateOrderPage() {
             setCurrentStep(2);
         }
     };
+
+
     const canContinue = selectedAddress?.id && selectedBillingAddress?.id;
     return (
         <section className="bg-[#FAFAFA] py-8" >
@@ -50,7 +81,9 @@ function CreateOrderPage() {
                         <div
                             className={`flex flex-col gap-2 border border-[#D6EEF9]  border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 2 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
                             <h2 className={`text-lg font-medium ${currentStep === 2 && "text-[#23A6F0]"}`}>Ödeme Seçenekleri</h2>
-                            <p className="font-normal">Banka/Kredi Kartı ile güvenle ödeyin</p>
+                            <p className="font-normal"> {selectedCard
+                                ? `${getCardType(selectedCard.card_no)} •••• ${selectedCard.card_no.slice(-4)}`
+                                : "Banka/Kredi Kartı ile güvenle ödeyin"}</p>
                         </div>
                     </div>
                     {currentStep === 1 && <Address />}

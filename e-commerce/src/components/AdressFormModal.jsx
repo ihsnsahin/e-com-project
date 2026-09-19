@@ -35,30 +35,24 @@ function AddressFormModal({ address, onClose }) {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors, isDirty, isValid }
     } = useForm({
-        mode: "onChange"
+        mode: "onChange",
+        defaultValues:
+        {
+            title: address?.title || "",
+            name: address?.name || "",
+            surname: address?.surname || "",
+            phone: address?.phone || "",
+            city: address?.city || "",
+            district: address?.district || "",
+            neighborhood: address?.neighborhood || "",
+            address: address?.address || ""
+        }
     });
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (address) {
-            reset(address);
-        } else {
-            reset({
-                title: "",
-                name: "",
-                surname: "",
-                phone: "",
-                city: "",
-                district: "",
-                neighborhood: "",
-                address: ""
-            });
-        }
-    }, [address, reset]);
 
     const addNewAddress = async (data) => {
         try {
