@@ -14,6 +14,7 @@ import { verifyUser } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
 import ShoppingCartPage from './pages/ShoppingCartPage';
 import CreateOrderPage from './pages/CreateOrderPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
@@ -55,9 +56,9 @@ function App() {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Route path="/create-order">
+        <ProtectedRoute path="/create-order">
           <CreateOrderPage />
-        </Route>
+        </ProtectedRoute>
       </Switch>
     </PageContent>
   );
