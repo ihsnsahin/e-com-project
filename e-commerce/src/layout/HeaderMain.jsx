@@ -1,15 +1,17 @@
-import { ChevronDown, ChevronUp, Heart, Search, User, UserPlus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Heart, LogOut, Search, User, UserPlus, X } from "lucide-react";
 import { useState } from "react";
 import Gravatar from "react-gravatar";
 import { BiMenuAltRight } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartDropdown from "../components/CartDropdown";
+import { logout } from "../store/actions/clientActions";
 
 function HeaderMain() {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isShopOpen, setShopOpen] = useState(false);
-
+    const [isUserOpen, setUserOpen] = useState(false);
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.client.user);
     const categories = useSelector((state) => state.product.categories);
 
@@ -17,13 +19,17 @@ function HeaderMain() {
 
     const femaleCategories = categories.filter((cat) => cat.gender === "k");
     const maleCategories = categories.filter((cat) => cat.gender === "e");
-
+    const handleLogOut = () => {
+        dispatch(logout());
+        setUserOpen(false);
+    }
     const handleClick = () => {
         setMenuOpen((prev) => !prev);
     }
     const closeAll = () => {
         setMenuOpen(false);
         setShopOpen(false);
+        setUserOpen(false);
     };
 
     return (
@@ -107,16 +113,36 @@ function HeaderMain() {
                 </nav>
                 <div className={`${isMenuOpen ? "flex" : "hidden"} nav:flex  flex-col nav:flex-row items-center justify-center gap-7 text-[#23A6F0]`}>
                     {user && user.email ? (
-                        <div className="flex items-center gap-2 cursor-pointer transition-transform duration-200 ease-in-out">
-                            <Gravatar
-                                email={user.email}
-                                size={36}
-                                default="identicon"
-                                className="w-9 h-9 nav:w-7 nav:h-7 rounded-full border border-[#23A6F0]/30 object-cover text-[#252B42]"
-                            />
-                            <span className="text-2xl nav:text-sm font-normal nav:font-bold text-[#252B42]">
-                                {user.name || user.email}
-                            </span>
+                        <div className="flex flex-col justify-center items-center gap-5 nav:relative">
+                            <button
+                                onClick={() => setUserOpen((prev) => !prev)}
+                                className="relative flex items-center gap-2 cursor-pointer transition-transform duration-200 ease-in-out">
+                                <Gravatar
+                                    email={user.email}
+                                    size={36}
+                                    default="identicon"
+                                    className="w-9 h-9 nav:w-7 nav:h-7 rounded-full border border-[#23A6F0]/30 object-cover text-[#252B42]"
+                                />
+                                <span className="text-2xl nav:text-sm font-normal nav:font-bold text-[#252B42]">
+                                    {user.name || user.email}
+                                </span>
+                                {isUserOpen ? <ChevronUp className="w-4 h-4 text-[#737373] " /> : <ChevronDown className="w-4 h-4 text-[#737373] " />}
+                            </button>
+                            {isUserOpen &&
+                                <div className="flex flex-col items-center justify-center gap-2 
+                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:right-0 nav:w-32 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start text-2xl nav:text-sm">
+                                    <p className="text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out cursor-pointer hover:text-[#252B42]">Previous order</p>
+                                    <button
+                                        onClick={handleLogOut}
+                                        className="flex items-center gap-1.5 cursor-pointer text-red-500 transition-colors duration-300 hover:text-red-700"
+                                    >
+                                        <LogOut className="w-7 h-7 nav:w-4 nav:h-4" />
+                                        <span className="text-2xl nav:text-sm font-normal nav:font-bold">
+                                            Log Out
+                                        </span>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     ) : <>
                         <Link

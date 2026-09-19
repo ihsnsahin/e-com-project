@@ -80,22 +80,25 @@ export const logUser = (data) => (dispatch) => {
                         localStorage.setItem("token", user.token);
                     }
                 }
-                toast.success("Başarıyla giriş yapıldı!");
+                toast.success("Successfully logged in!");
                 return user;
             }
         ).catch(
             (error) => {
-                const errorMsg = error.response?.data?.message || "Giriş başarısız! E-posta veya şifre hatalı.";
+                const errorMsg = error.response?.data?.message || "Login failed! Incorrect email or password.";
                 toast.error(errorMsg);
                 throw error;
             }
         )
 }
+
 export const logout = () => (dispatch) => {
     delete API.defaults.headers.common["Authorization"];
     localStorage.removeItem("token");
     dispatch(setUser({}));
+    toast.success("Successfully logged out!");
 };
+
 export const verifyUser = () => (dispatch) => {
     const token = localStorage.getItem("token");
 
@@ -109,13 +112,12 @@ export const verifyUser = () => (dispatch) => {
         localStorage.setItem("token", user.token)
     })
         .catch((error) => {
-            console.error("Token doğrulanamadı veya süresi dolmuş:", error);
+            console.error("Token could not be verified or has expired.", error);
             dispatch(setUser(null));
             delete API.defaults.headers.common["Authorization"];
             localStorage.removeItem("token");
         });
 }
-
 export const fetchAddressList = () => (dispatch) => {
     API.get("/user/address")
         .then((response) => {

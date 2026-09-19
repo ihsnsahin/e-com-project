@@ -81,9 +81,11 @@ function CreateOrderPage() {
                         <div
                             className={`flex flex-col gap-2 border border-[#D6EEF9]  border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 2 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3"} `}>
                             <h2 className={`text-lg font-medium ${currentStep === 2 && "text-[#23A6F0]"}`}>Ödeme Seçenekleri</h2>
-                            <p className="font-normal"> {selectedCard
-                                ? `${getCardType(selectedCard.card_no)} •••• ${selectedCard.card_no.slice(-4)}`
-                                : "Banka/Kredi Kartı ile güvenle ödeyin"}</p>
+                            <p className="font-normal">
+                                {selectedCard?.card_no
+                                    ? `${getCardType(selectedCard.card_no)} •••• ${selectedCard.card_no.slice(-4)}`
+                                    : "Banka/Kredi Kartı ile güvenle ödeyin"}
+                            </p>
                         </div>
                     </div>
                     {currentStep === 1 && <Address />}
