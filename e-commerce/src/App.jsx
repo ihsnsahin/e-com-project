@@ -16,6 +16,7 @@ import ShoppingCartPage from './pages/ShoppingCartPage';
 import CreateOrderPage from './pages/CreateOrderPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import OrderSuccessPage from './pages/OrderSuccessPage';
+import PreviousOrdersPage from './pages/PreviousOrderPage';
 
 
 function App() {
@@ -57,6 +58,9 @@ function App() {
         <Route path="/login">
           <LoginPage />
         </Route>
+        <ProtectedRoute path="/orders">
+          <PreviousOrdersPage />
+        </ProtectedRoute>
         <ProtectedRoute path="/create-order">
           <CreateOrderPage />
         </ProtectedRoute>

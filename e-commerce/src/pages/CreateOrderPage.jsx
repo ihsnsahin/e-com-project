@@ -71,8 +71,8 @@ function CreateOrderPage() {
 
     const canContinue =
         currentStep === 1
-            ? hasAddress
-            : hasAddress && selectedCard?.id;
+            ? hasAddress && grandTotal > 0
+            : hasAddress && selectedCard?.id && grandTotal > 0;
 
 
     return (

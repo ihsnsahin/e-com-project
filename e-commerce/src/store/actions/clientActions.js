@@ -14,6 +14,7 @@ export const DELETE_CREDIT_CARD = "DELETE_CREDIT_CARD";
 export const SET_ROLES = "SET_ROLES";
 export const SET_THEME = "SET_THEME";
 export const SET_LANGUAGE = "SET_LANGUAGE";
+export const SET_ORDERS = "SET_ORDERS";
 
 export const setUser = (user) => {
     return { type: SET_USER, payload: user }
@@ -52,6 +53,9 @@ export const setTheme = (theme) => {
 
 export const setLanguage = (language) => {
     return { type: SET_LANGUAGE, payload: language };
+};
+export const setOrders = (orders) => {
+    return { type: SET_ORDERS, payload: orders };
 };
 
 export const fetchRoles = () => (dispatch) => {
@@ -198,4 +202,12 @@ export const updateCreditCards = (creditCard) => (dispatch) => {
             throw error;
         });
 };
-
+export const fetchOrders = () => (dispatch) => {
+    API.get("/order").then(
+        (response) => {
+            dispatch(setOrders(response.data))
+        }
+    ).catch(
+        (error) => { console.log(error) }
+    )
+}

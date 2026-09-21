@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute({ children, ...rest }) {
     const user = useSelector((state) => state.client.user);
+    const token = localStorage.getItem("token");
 
     return (
         <Route
@@ -10,11 +11,9 @@ function ProtectedRoute({ children, ...rest }) {
             render={() =>
                 user && user.email
                     ? children
-                    : (
-                        <Redirect
-                            to="/login"
-                        />
-                    )
+                    : token
+                        ? null
+                        : <Redirect to="/login" />
             }
         />
     );

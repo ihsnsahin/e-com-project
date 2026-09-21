@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartDropdown from "../components/CartDropdown";
 import { logout } from "../store/actions/clientActions";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function HeaderMain() {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [isShopOpen, setShopOpen] = useState(false);
     const [isUserOpen, setUserOpen] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
     const user = useSelector((state) => state.client.user);
     const categories = useSelector((state) => state.product.categories);
 
@@ -130,8 +132,13 @@ function HeaderMain() {
                             </button>
                             {isUserOpen &&
                                 <div className="flex flex-col items-center justify-center gap-2 
-                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:right-0 nav:w-32 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start text-2xl nav:text-sm">
-                                    <p className="text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out cursor-pointer hover:text-[#252B42]">Previous order</p>
+                            nav:absolute  nav:top-full nav:mt-3 nav:z-50 nav:left-0 nav:w-40 nav:bg-white nav:rounded-md nav:p-2 nav:shadow-2xl nav:items-start text-2xl nav:text-sm">
+                                    <p
+                                        onClick={() => {
+                                            closeAll();
+                                            history.push("/orders")
+                                        }}
+                                        className="text-2xl nav:text-sm text-[#737373] font-normal nav:font-bold transition-transform duration-200 ease-in-out cursor-pointer hover:text-[#252B42]">Previous order</p>
                                     <button
                                         onClick={handleLogOut}
                                         className="flex items-center gap-1.5 cursor-pointer text-red-500 transition-colors duration-300 hover:text-red-700"

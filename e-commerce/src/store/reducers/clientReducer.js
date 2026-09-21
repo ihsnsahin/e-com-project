@@ -1,9 +1,10 @@
-import { SET_USER, SET_ADDRESS_LIST, SET_CREDIT_CARDS, SET_ROLES, SET_THEME, SET_LANGUAGE, ADD_ADDRESS, DELETE_ADDRESS, UPDATE_ADDRESS, ADD_CREDIT_CARD, DELETE_CREDIT_CARD, UPDATE_CREDIT_CARD } from "../actions/clientActions";
+import { SET_USER, SET_ADDRESS_LIST, SET_CREDIT_CARDS, SET_ROLES, SET_THEME, SET_LANGUAGE, ADD_ADDRESS, DELETE_ADDRESS, UPDATE_ADDRESS, ADD_CREDIT_CARD, DELETE_CREDIT_CARD, UPDATE_CREDIT_CARD, SET_ORDERS } from "../actions/clientActions";
 
 
 const initialState = {
     user: {},
     addressList: [],
+    orders: [],
     creditCards: [],
     roles: [],
     theme: "",
@@ -87,6 +88,11 @@ const clientReducer = (state = initialState, action) => {
             return {
                 ...state,
                 language: action.payload
+            };
+        case SET_ORDERS:
+            return {
+                ...state,
+                orders: action.payload
             };
         default:
             return state;

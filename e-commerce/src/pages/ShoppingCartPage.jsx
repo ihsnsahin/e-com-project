@@ -147,7 +147,9 @@ function ShoppingCartPage() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-4 w-full md:max-w-[30%] md:sticky md:top-40 md:self-start">
-                            <button className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
+                            <button
+                                onClick={() => history.push("/create-order")}
+                                className="text-white bg-[#23A6F0] transition-colors duration-300 hover:bg-[#1d91d1] cursor-pointer py-3 rounded-sm w-full"
                             >Create Order</button>
                             <div className="flex flex-col gap-2 py-4 px-3 border border-[#D6EEF9] rounded-xl bg-white overflow-hidden">
                                 <h3 className="text-base mb-2">Order Summary</h3>
