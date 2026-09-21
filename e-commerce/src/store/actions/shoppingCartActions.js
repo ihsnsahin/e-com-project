@@ -1,3 +1,5 @@
+import { API } from "../../services/api";
+
 export const SET_CART = "SET_CART";
 export const SET_PAYMENT = "SET_PAYMENT";
 export const SET_ADDRESS = "SET_ADDRESS";
@@ -8,6 +10,7 @@ export const INCREASE_COUNT = "INCREASE_COUNT";
 export const DECREASE_COUNT = "DECREASE_COUNT";
 export const TOGGLE_CART_ITEM = "TOGGLE_CART_ITEM";
 export const TOGGLE_ALL_CART_ITEMS = "TOGGLE_ALL_CART_ITEMS";
+export const RESET_CHECKOUT = "RESET_CHECKOUT";
 
 export const setCart = (cart) => {
     return { type: SET_CART, payload: cart }
@@ -41,7 +44,21 @@ export const toggleCartItem = (productId) => {
 export const toggleAllCartItems = () => {
     return { type: TOGGLE_ALL_CART_ITEMS }
 }
+export const resetCheckout = () => {
+    return { type: RESET_CHECKOUT }
+}
 
+
+export const createOrder = (orderData) => (dispatch) => {
+    return API.post("/order", orderData)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        });
+};
 
 
 

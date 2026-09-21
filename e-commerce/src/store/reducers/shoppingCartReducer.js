@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, SET_ADDRESS, SET_BILLING_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
+import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, RESET_CHECKOUT, SET_ADDRESS, SET_BILLING_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
 
 const initialState = {
     cart: [],
@@ -96,7 +96,14 @@ const shoppingCartReducer = (state = initialState, action) => {
                 }))
             };
         }
-
+        case RESET_CHECKOUT:
+            return {
+                ...state,
+                cart: state.cart.filter((item) => !item.checked),
+                payment: {},
+                address: {},
+                billingAddress: {}
+            };
         default:
             return state;
     }

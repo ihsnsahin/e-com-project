@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Address from "../components/Address";
 import Payment from "../components/Payment";
+import PayModal from "../components/PayModal";
 
 function CreateOrderPage() {
     const [currentStep, setCurrentStep] = useState(1);
+    const [isPayModalOpen, setIsPayModalOpen] = useState(false);
     const selectedAddress = useSelector(
         (state) => state.shoppingCart.address
     );
@@ -59,10 +61,20 @@ function CreateOrderPage() {
         if (currentStep === 1) {
             setCurrentStep(2);
         }
+        if (currentStep === 2) {
+            setIsPayModalOpen(true);
+        }
     };
 
 
-    const canContinue = selectedAddress?.id && selectedBillingAddress?.id;
+    const hasAddress = selectedAddress?.id && selectedBillingAddress?.id;
+
+    const canContinue =
+        currentStep === 1
+            ? hasAddress
+            : hasAddress && selectedCard?.id;
+
+
     return (
         <section className="bg-[#FAFAFA] py-8" >
             <div className="layout-flex items-start md:flex-row w-full gap-6">
@@ -73,7 +85,7 @@ function CreateOrderPage() {
                             className={`flex flex-col gap-2 border border-[#D6EEF9] border-b-3 rounded-sm w-1/2 p-4 opacity-40  ${currentStep === 1 && "opacity-100 bg-white border-b-[#23A6F0] border-b-3 min-w-0"} `}>
                             <h2 className={`text-lg font-medium ${currentStep === 1 && "text-[#23A6F0]"}`}>Adres Bilgileri</h2>
                             <p className="font-normal line-clamp-3">
-                                {selectedAddress
+                                {selectedAddress?.id
                                     ? `${selectedAddress.title} - ${selectedAddress.address}, ${selectedAddress.neighborhood}, ${selectedAddress.district} / ${selectedAddress.city}`
                                     : "Adres seçin"}
                             </p>
@@ -135,6 +147,15 @@ function CreateOrderPage() {
                     </button>
                 </div>
             </div>
+            {isPayModalOpen &&
+                <PayModal
+                    cart={cart}
+                    address={selectedAddress}
+                    card={selectedCard}
+                    total={grandTotal}
+                    onClose={() => setIsPayModalOpen(false)}
+                />
+            }
         </section >)
 }
 export default CreateOrderPage;
