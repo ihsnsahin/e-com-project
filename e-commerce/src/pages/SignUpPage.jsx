@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { API, MYAPI } from "../services/api";
+import { API } from "../services/api";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -44,7 +44,7 @@ function SignUpPage() {
             };
         }
         try {
-            const response = await MYAPI.post(
+            const response = await API.post(
                 "/signup",
                 payload
             );

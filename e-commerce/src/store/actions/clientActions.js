@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-import { API, MYAPI } from "../../services/api";
+import { API } from "../../services/api";
 
 export const SET_USER = "SET_USER";
 export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
@@ -73,7 +73,7 @@ export const logUser = (data) => (dispatch) => {
         email: data.email,
         password: data.password,
     };
-    return MYAPI.post("/login", payload)
+    return API.post("/login", payload)
         .then(
             (response) => {
                 const user = response.data
@@ -97,7 +97,7 @@ export const logUser = (data) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-    delete MYAPI.defaults.headers.common["Authorization"];
+    delete API.defaults.headers.common["Authorization"];
     localStorage.removeItem("token");
     dispatch(setUser({}));
     toast.success("Successfully logged out!");
@@ -107,18 +107,18 @@ export const verifyUser = () => (dispatch) => {
     const token = localStorage.getItem("token");
 
     if (!token) return;
-    MYAPI.defaults.headers.common["Authorization"] = token;
-    MYAPI.get("/verify").then((response) => {
+    API.defaults.headers.common["Authorization"] = token;
+    API.get("/verify").then((response) => {
         const user = response.data
         dispatch(setUser(user));
         //Yanıtta gelen token ile bilgilerimizi güncelliyoruz.
-        MYAPI.defaults.headers.common["Authorization"] = user.token;
+        API.defaults.headers.common["Authorization"] = user.token;
         localStorage.setItem("token", user.token)
     })
         .catch((error) => {
             console.error("Token could not be verified or has expired.", error);
             dispatch(setUser(null));
-            delete MYAPI.defaults.headers.common["Authorization"];
+            delete API.defaults.headers.common["Authorization"];
             localStorage.removeItem("token");
         });
 }
