@@ -9,7 +9,7 @@ import AboutPage from './pages/AboutPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { verifyUser } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
 import ShoppingCartPage from './pages/ShoppingCartPage';
@@ -24,7 +24,12 @@ function App() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(verifyUser());
-  }, [])
+  }, []);
+  const cart = useSelector((state) => state.shoppingCart.cart);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
   return (
     <PageContent>
       <Switch>

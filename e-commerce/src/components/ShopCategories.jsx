@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { MYAPI } from "../services/api";
 
 function ShopCategories() {
     /*const shopCategories = [
@@ -17,7 +18,7 @@ function ShopCategories() {
         <section className="bg-[#FAFAFA] py-8">
             <div className="flex flex-wrap justify-center lg:justify-between items-center px-9 md:max-w-5xl md:mx-auto lg:px-0 gap-4 lg:gap-2">
                 {showShopCategories.map((shop) => {
-                    const categoryCodeName = shop.code.split(":")[1];
+                    const categoryCodeName = shop?.code?.split(":")[1];
                     const gender = shop.gender === "k" ? "kadin" : "erkek";
                     return (
                         <Link
@@ -25,7 +26,11 @@ function ShopCategories() {
                             className="block relative w-full sm:max-w-[30%] lg:max-w-[19%] aspect-11/10 sm:aspect-10/11 group cursor-pointer overflow-hidden"
                             to={`/shop/${gender}/${categoryCodeName}/${shop.id}`}
                         >
-                            <img src={shop.img} alt={shop.title} className="w-full h-full object-cover object-center block transition-transform duration-300 group-hover:scale-105" />
+                            <img
+                                // src={shop.img} //workintech adresi için bunu kullanacağız.
+                                src={`${MYAPI.defaults.baseURL}${shop.img}`}
+                                alt={shop.title}
+                                className="w-full h-full object-cover object-center block transition-transform duration-300 group-hover:scale-105" />
                             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 text-white ">
                                 <h5 className="text-base">{shop.title.toUpperCase()}</h5>
                                 <h6 className="text-xs">Rating: {shop.rating}</h6>

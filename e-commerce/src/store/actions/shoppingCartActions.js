@@ -1,4 +1,4 @@
-import { API } from "../../services/api";
+import { API, MYAPI } from "../../services/api";
 
 export const SET_CART = "SET_CART";
 export const SET_PAYMENT = "SET_PAYMENT";
@@ -50,7 +50,7 @@ export const resetCheckout = () => {
 
 
 export const createOrder = (orderData) => (dispatch) => {
-    return API.post("/order", orderData)
+    return MYAPI.post("/order", orderData)
         .then((response) => {
             return response.data;
         })

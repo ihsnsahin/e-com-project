@@ -1,4 +1,4 @@
-import { API } from "../../services/api";
+import { API, MYAPI } from "../../services/api";
 
 export const SET_CATEGORIES = "SET_CATEGORIES";
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
@@ -48,7 +48,7 @@ export const setProductDetailFetchState = (productDetailFetchState) => {
 
 
 export const fetchCategories = () => (dispatch) => {
-    API.get("/categories")
+    MYAPI.get("/categories")
         .then((response) => {
             dispatch(setCategories(response.data));
         }
@@ -57,7 +57,7 @@ export const fetchCategories = () => (dispatch) => {
 }
 export const fetchProducts = (params) => (dispatch) => {
     dispatch(setFetchState("FETCHING"));
-    API.get("/products", { params })
+    MYAPI.get("/products", { params })
         .then((response) => {
             dispatch(setProductList(response.data.products));
             dispatch(setTotal(response.data.total));
@@ -70,7 +70,7 @@ export const fetchProducts = (params) => (dispatch) => {
 }
 export const fetchProduct = (productId) => (dispatch) => {
     dispatch(setProductDetailFetchState("FETCHING"));
-    API.get(`/products/${productId}`)
+    MYAPI.get(`/products/${productId}`)
         .then((response) => {
             console.log(response.data);
             dispatch(setProductDetail(response.data));

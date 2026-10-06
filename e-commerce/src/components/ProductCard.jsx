@@ -19,6 +19,7 @@ function ProductCard({ product, viewMode }) {
     const productNameSlug = slugify(product.name, { lower: true, strict: true });
     const shopCategories = useSelector((state) => state.product.categories);
     const category = shopCategories.find((category) => category.id === product.category_id);
+    if (!category) return null;//kendi yazdığım API'da sayfa patladığı için bunu eklemek zorunda kaldım.
     const categoryCodeName = category.code.split(":")[1];
     const gender = category.gender === "k" ? "kadin" : "erkek";
     const handleProductClick = (e) => {

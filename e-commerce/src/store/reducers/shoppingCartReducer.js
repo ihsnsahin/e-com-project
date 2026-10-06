@@ -1,11 +1,11 @@
 import { ADD_TO_CART, DECREASE_COUNT, INCREASE_COUNT, REMOVE_FROM_CART, RESET_CHECKOUT, SET_ADDRESS, SET_BILLING_ADDRESS, SET_CART, SET_PAYMENT, TOGGLE_ALL_CART_ITEMS, TOGGLE_CART_ITEM } from "../actions/shoppingCartActions";
 
 const initialState = {
-    cart: [],
+    cart: JSON.parse(localStorage.getItem("cart")) || [],
     payment: {},
     address: {},
     billingAddress: {}
-}
+};
 const shoppingCartReducer = (state = initialState, action) => {
 
     switch (action.type) {

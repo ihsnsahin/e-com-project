@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-import { API } from "../../services/api";
+import { API, MYAPI } from "../../services/api";
 
 export const SET_USER = "SET_USER";
 export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
@@ -73,13 +73,13 @@ export const logUser = (data) => (dispatch) => {
         email: data.email,
         password: data.password,
     };
-    return API.post("/login", payload)
+    return MYAPI.post("/login", payload)
         .then(
             (response) => {
                 const user = response.data
                 dispatch(setUser(user));
                 if (user.token) {
-                    API.defaults.headers.common["Authorization"] = user.token;
+                    MYAPI.defaults.headers.common["Authorization"] = user.token;
                     if (data.remember) {
                         localStorage.setItem("token", user.token);
                     }
@@ -97,7 +97,7 @@ export const logUser = (data) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-    delete API.defaults.headers.common["Authorization"];
+    delete MYAPI.defaults.headers.common["Authorization"];
     localStorage.removeItem("token");
     dispatch(setUser({}));
     toast.success("Successfully logged out!");
@@ -107,23 +107,23 @@ export const verifyUser = () => (dispatch) => {
     const token = localStorage.getItem("token");
 
     if (!token) return;
-    API.defaults.headers.common["Authorization"] = token;
-    API.get("/verify").then((response) => {
+    MYAPI.defaults.headers.common["Authorization"] = token;
+    MYAPI.get("/verify").then((response) => {
         const user = response.data
         dispatch(setUser(user));
         //Yanıtta gelen token ile bilgilerimizi güncelliyoruz.
-        API.defaults.headers.common["Authorization"] = user.token;
+        MYAPI.defaults.headers.common["Authorization"] = user.token;
         localStorage.setItem("token", user.token)
     })
         .catch((error) => {
             console.error("Token could not be verified or has expired.", error);
             dispatch(setUser(null));
-            delete API.defaults.headers.common["Authorization"];
+            delete MYAPI.defaults.headers.common["Authorization"];
             localStorage.removeItem("token");
         });
 }
 export const fetchAddressList = () => (dispatch) => {
-    API.get("/user/address")
+    MYAPI.get("/user/address")
         .then((response) => {
             dispatch(setAddressList(response.data));
         })
@@ -131,7 +131,7 @@ export const fetchAddressList = () => (dispatch) => {
 };
 
 export const addToAddressList = (address) => (dispatch) => {
-    return API.post("/user/address", address)
+    return MYAPI.post("/user/address", address)
         .then((response) => {
             dispatch(addAddress(response.data[0]));
             return response.data[0];
@@ -142,7 +142,7 @@ export const addToAddressList = (address) => (dispatch) => {
         });
 };
 export const deleteFromAddressList = (addressId) => (dispatch) => {
-    return API.delete(`/user/address/${addressId}`)
+    return MYAPI.delete(`/user/address/${addressId}`)
         .then(() => {
             dispatch(deleteAddress(addressId));
         })
@@ -152,7 +152,7 @@ export const deleteFromAddressList = (addressId) => (dispatch) => {
         });
 };
 export const updateAddressList = (address) => (dispatch) => {
-    return API.put("/user/address", address)
+    return MYAPI.put("/user/address", address)
         .then((response) => {
             dispatch(updateAddress(response.data[0]));
             return response.data[0];
@@ -164,14 +164,14 @@ export const updateAddressList = (address) => (dispatch) => {
 };
 
 export const fetchCreditCards = () => (dispatch) => {
-    API.get("/user/card")
+    MYAPI.get("/user/card")
         .then((response) => {
             dispatch(setCreditCards(response.data));
         })
         .catch((error) => console.log(error));
 };
 export const addToCreditCards = (creditCard) => (dispatch) => {
-    return API.post("/user/card", creditCard)
+    return MYAPI.post("/user/card", creditCard)
         .then((response) => {
             dispatch(addCreditCard(response.data[0]));
             return response.data[0];
@@ -182,7 +182,7 @@ export const addToCreditCards = (creditCard) => (dispatch) => {
         });
 };
 export const deleteFromCreditCards = (creditCardId) => (dispatch) => {
-    return API.delete(`/user/card/${creditCardId}`)
+    return MYAPI.delete(`/user/card/${creditCardId}`)
         .then(() => {
             dispatch(deleteCreditCard(creditCardId));
         })
@@ -192,7 +192,7 @@ export const deleteFromCreditCards = (creditCardId) => (dispatch) => {
         });
 };
 export const updateCreditCards = (creditCard) => (dispatch) => {
-    return API.put("/user/card", creditCard)
+    return MYAPI.put("/user/card", creditCard)
         .then((response) => {
             dispatch(updateCreditCard(response.data[0]));
             return response.data[0];
@@ -203,7 +203,7 @@ export const updateCreditCards = (creditCard) => (dispatch) => {
         });
 };
 export const fetchOrders = () => (dispatch) => {
-    API.get("/order").then(
+    MYAPI.get("/order").then(
         (response) => {
             dispatch(setOrders(response.data))
         }
